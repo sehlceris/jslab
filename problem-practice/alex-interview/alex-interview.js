@@ -86,10 +86,10 @@ class Practice {
                 factors.push(i)
             }
         }
-        if (Practice.checkIfPrime(n)) {
+        if (this.checkIfPrime(n)) {
             factors.push(n);
         }
-        return factors.filter(f => Practice.checkIfPrime(f));
+        return factors.filter(f => this.checkIfPrime(f));
     }
 
     static mergeSortedArrays(arr1, arr2) {
@@ -118,6 +118,56 @@ class Practice {
         }
 
         return merged;
+    }
+
+    static reverseStringRecursive(str) {
+        if (!str || !str.length) {
+            return '';
+        }
+        const result = this.reverseStringRecursive(str.substr(1)) + str.charAt(0);
+        return result;
+    }
+
+    static reverseWordsInString(str) {
+        return str.split(/\s+/).filter(it => it.trim().length > 0).map(it => it.trim()).reverse().join(' ');
+    }
+
+    static firstNonRepeatingCharacterInAString(str) {
+        const charMap = {};
+
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charAt(i);
+            const typeofCharMapI = typeof(charMap[char]);
+            if (typeofCharMapI === 'boolean' || typeofCharMapI === 'number') {
+                charMap[char] = true;
+            }
+            else {
+                charMap[char] = i;
+            }
+        }
+
+        let lowestChar = null;
+        let lowestIndex = Infinity;
+
+        const keys = Object.keys(charMap);
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            const index = charMap[key];
+            if (index === true) {
+                // do nothing, because this char has been repeated
+            }
+            else {
+                if (index < lowestIndex) {
+                    lowestIndex = index;
+                    lowestChar = str.charAt(index);
+                }
+            }
+        }
+
+        return {
+            char: lowestChar,
+            index: lowestIndex
+        };
     }
 }
 

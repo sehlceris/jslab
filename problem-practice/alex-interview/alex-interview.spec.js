@@ -195,4 +195,60 @@ describe('Practice', function () {
             expect(Practice.mergeSortedArrays(arr1, arr2)).to.eql(expectedResult);
         });
     });
+
+    describe('reverseStringRecursive', function () {
+
+        it('reverses an string with even length', function () {
+            const str = 'tineye';
+            const expectedResult = 'eyenit';
+            const actualResult = Practice.reverseStringRecursive(str);
+            expect(actualResult).to.equal(expectedResult);
+        });
+
+        it('reverses an string with odd length', function () {
+            const str = 'tiney';
+            const expectedResult = 'yenit';
+            const actualResult = Practice.reverseStringRecursive(str);
+            expect(actualResult).to.equal(expectedResult);
+        });
+
+    });
+
+    describe('reverseWordsInString', function () {
+
+        it('reverses words in a string', function () {
+            const str = 'hole in my bucket';
+            const expectedResult = 'bucket my in hole';
+            const actualResult = Practice.reverseWordsInString(str);
+            expect(actualResult).to.equal(expectedResult);
+        });
+
+        it('reverses words in a string with leading, trailing, and multiple spaces', function () {
+            const str = ' hole in  my      bucket  ';
+            const expectedResult = 'bucket my in hole';
+            const actualResult = Practice.reverseWordsInString(str);
+            expect(actualResult).to.equal(expectedResult);
+        });
+
+        it('reverses words in a string', function () {
+            const str = 'hole in my bucket delilah';
+            const expectedResult = 'delilah bucket my in hole';
+            const actualResult = Practice.reverseWordsInString(str);
+            expect(actualResult).to.equal(expectedResult);
+        });
+    });
+
+    describe('firstNonRepeatingCharacterInAString', function () {
+
+        it('finds the first non repeating character in a string', function () {
+            const str = 'a b c d e f g abcdfg h i j k';
+            const expectedResult = {
+                char: 'e',
+                index: 8
+            };
+            const actualResult = Practice.firstNonRepeatingCharacterInAString(str);
+            expect(actualResult).to.eql(expectedResult);
+        })
+
+    });
 });
