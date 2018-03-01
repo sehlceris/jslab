@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon local/run.js",
-    "test": "./node_modules/nodemon/bin/nodemon.js -x \"./node_modules/.bin/mocha --reporter spec './problem-practice/**/*.spec.js' || exit 1\""
+    "test": "./node_modules/nodemon/bin/nodemon.js -x \"./node_modules/.bin/mocha --reporter nyan './problem-practice/**/*.spec.js' || exit 1\""
   },
   "repository": {
     "type": "git",

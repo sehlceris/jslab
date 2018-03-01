@@ -67,9 +67,57 @@ class Practice {
         } : null;
     }
 
-    // swap numbers without a temp element
-    static swapNumbersWithoutTempElement(a, b) {
-        return [a, b];
+    static checkIfPrime(n) {
+        if (n === 0 || n === 1) {
+            return false;
+        }
+        for (let i = 2; i <= Math.max(n / 2); i++) {
+            if (n % i === 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static findPrimeFactors(n) {
+        const factors = [];
+        for (let i = 2; i <= Math.max(n / 2); i++) {
+            if (n % i === 0) {
+                factors.push(i)
+            }
+        }
+        if (Practice.checkIfPrime(n)) {
+            factors.push(n);
+        }
+        return factors.filter(f => Practice.checkIfPrime(f));
+    }
+
+    static mergeSortedArrays(arr1, arr2) {
+        const merged = [];
+
+        let i1 = 0;
+        let i2 = 0;
+
+        while (i1 < arr1.length || i2 < arr2.length) {
+            if (i1 >= arr1.length) {
+                merged.push(arr2[i2]);
+                i2++;
+            }
+            else if (i2 >= arr2.length) {
+                merged.push(arr1[i1]);
+                i1++;
+            }
+            else if (arr1[i1] > arr2[i2]) {
+                merged.push(arr2[i2]);
+                i2++;
+            }
+            else {
+                merged.push(arr1[i1]);
+                i1++;
+            }
+        }
+
+        return merged;
     }
 }
 

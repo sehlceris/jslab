@@ -101,13 +101,98 @@ describe('Practice', function () {
         });
     });
 
-    describe('swapNumbersWithoutTempElement', function () {
-        it('should swap 3 and 76', function () {
-            expect(Practice.swapNumbersWithoutTempElement(3, 76)).to.eql([76, 3]);
+    describe('checkIfPrime', function () {
+        it('should verify that 0 is not prime', function () {
+            expect(Practice.checkIfPrime(0)).to.be.false;
         });
 
-        it('should swap 0 and 1', function () {
-            expect(Practice.swapNumbersWithoutTempElement(0, 1)).to.eql([1, 0]);
+        it('should verify that 1 is not prime', function () {
+            expect(Practice.checkIfPrime(1)).to.be.false;
+        });
+
+        it('should verify that 2 is prime', function () {
+            expect(Practice.checkIfPrime(2)).to.be.true;
+        });
+
+        it('should verify that 3 is prime', function () {
+            expect(Practice.checkIfPrime(3)).to.be.true;
+        });
+
+        it('should verify that 4 is not prime', function () {
+            expect(Practice.checkIfPrime(4)).to.be.false;
+        });
+
+        it('should verify that 5 is prime', function () {
+            expect(Practice.checkIfPrime(5)).to.be.true;
+        });
+
+        it('should verify that 6 is not prime', function () {
+            expect(Practice.checkIfPrime(6)).to.be.false;
+        });
+
+        it('should verify that 7 is prime', function () {
+            expect(Practice.checkIfPrime(7)).to.be.true;
+        });
+
+        it('should verify that 28 is not prime', function () {
+            expect(Practice.checkIfPrime(28)).to.be.false;
+        });
+
+        it('should verify that 29 is prime', function () {
+            expect(Practice.checkIfPrime(29)).to.be.true;
+        });
+    });
+
+    describe('findPrimeFactors', function () {
+
+        it('finds no prime factors for 0', function () {
+            expect(Practice.findPrimeFactors(0)).to.eql([]);
+        });
+
+        it('finds no prime factors for 1', function () {
+            expect(Practice.findPrimeFactors(1)).to.eql([]);
+        });
+
+        it('finds a prime factor for 2', function () {
+            expect(Practice.findPrimeFactors(2)).to.eql([2]);
+        });
+
+        it('finds a prime factor for 3', function () {
+            expect(Practice.findPrimeFactors(3)).to.eql([3]);
+        });
+
+        it('finds prime factors for 8', function () {
+            expect(Practice.findPrimeFactors(8)).to.eql([2]);
+        });
+
+        it('finds prime factors for 24', function () {
+            expect(Practice.findPrimeFactors(24)).to.eql([2, 3]);
+        });
+
+        it('finds a prime factor for 29', function () {
+            expect(Practice.findPrimeFactors(29)).to.eql([29]);
+        });
+    });
+
+    describe('mergeSortedArrays', function () {
+
+        it('merges two empty arrays', function () {
+            expect(Practice.mergeSortedArrays([], [])).to.eql([]);
+        });
+
+        it('merges two arrays of length 1', function () {
+            expect(Practice.mergeSortedArrays([1], [2])).to.eql([1, 2]);
+        });
+
+        it('merges two arrays of length 1 (reverse)', function () {
+            expect(Practice.mergeSortedArrays([2], [1])).to.eql([1, 2]);
+        });
+
+        it('merges two sorted arrays into a sorted array', function () {
+            const arr1 = [2, 5, 6, 9];
+            const arr2 = [1, 2, 3, 29];
+            const expectedResult = [1, 2, 2, 3, 5, 6, 9, 29];
+            expect(Practice.mergeSortedArrays(arr1, arr2)).to.eql(expectedResult);
         });
     });
 });
