@@ -40,6 +40,7 @@ class Practice {
             currentEl = arr[currentTestIndex];
 
             if (el === currentEl) {
+                log ? console.log(`found at i=${currentTestIndex} after ${iterations} iterations`) : null;
                 return metadata ? {
                     found: true,
                     item: currentEl,
@@ -57,6 +58,7 @@ class Practice {
             }
 
         }
+        log ? console.log(`not found after ${iterations} iterations`) : null;
         return metadata ? {
             found: false,
             item: null,
