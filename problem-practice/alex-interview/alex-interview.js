@@ -14,11 +14,11 @@ class Practice {
     static removeElementsInListWithEvenNumberOfOccurrences(arr) {
         const counts = {};
         arr.forEach(i => counts[i] ? counts[i]++ : counts[i] = 1);
-        return [... new Set(arr.filter(i => counts[i] % 2 === 0))].sort();
+        return [... new Set(arr.filter(i => counts[i] % 2 !== 0))];
     }
 
     // binary search
-    static binarySearch(arr, el, log = false) {
+    static binarySearch(arr, el, metadata = false, log = false) {
         if (!arr.length) {
             return null;
         }
@@ -40,12 +40,12 @@ class Practice {
             currentEl = arr[currentTestIndex];
 
             if (el === currentEl) {
-                return {
+                return metadata ? {
                     found: true,
                     item: currentEl,
                     index: currentTestIndex,
                     iterations: iterations
-                };
+                } : currentTestIndex;
             }
             else if (el > currentEl) {
                 currentMinIndex = currentTestIndex + 1;
@@ -57,54 +57,17 @@ class Practice {
             }
 
         }
-        return {
+        return metadata ? {
             found: false,
             item: null,
             index: currentTestIndex,
             iterations: iterations
-        };
+        } : null;
     }
 
-    // binary search (not mine) https://oli.me.uk/2013/06/08/searching-javascript-arrays-with-a-binary-search/
-    static binaryIndexOf(arr, searchElement) {
-        'use strict';
-
-        let minIndex = 0;
-        let maxIndex = arr.length - 1;
-        let currentIndex;
-        let currentElement;
-
-        let iterations = 0;
-
-        while (minIndex <= maxIndex) {
-
-            iterations++;
-
-            currentIndex = (minIndex + maxIndex) / 2 | 0;
-            currentElement = arr[currentIndex];
-
-            if (currentElement < searchElement) {
-                minIndex = currentIndex + 1;
-            }
-            else if (currentElement > searchElement) {
-                maxIndex = currentIndex - 1;
-            }
-            else {
-                return {
-                    found: true,
-                    item: currentElement,
-                    index: currentIndex,
-                    iterations: iterations
-                };
-            }
-        }
-
-        return {
-            found: false,
-            item: null,
-            index: currentIndex,
-            iterations: iterations
-        };
+    // swap numbers without a temp element
+    static swapNumbersWithoutTempElement(a, b) {
+        return [a, b];
     }
 }
 
