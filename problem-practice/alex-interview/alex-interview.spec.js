@@ -497,4 +497,47 @@ describe('Practice', function () {
             expect(Practice.deepEqual(o2, o1)).to.be.false;
         });
     });
+
+    describe('incrementIntRepresentedAsArray', function () {
+
+        it('will increment [0] to [1]', function () {
+            expect(Practice.incrementIntRepresentedAsArray([0])).to.eql([1]);
+        });
+
+        it('will increment [2] to [3]', function () {
+            expect(Practice.incrementIntRepresentedAsArray([2])).to.eql([3]);
+        });
+
+        it('will increment [1,2] to [1,3]', function () {
+            expect(Practice.incrementIntRepresentedAsArray([1, 2])).to.eql([1, 3]);
+        });
+
+        it('will increment [9] to [1,0]', function () {
+            expect(Practice.incrementIntRepresentedAsArray([9])).to.eql([1, 0]);
+        });
+
+        it('will increment [1,9] to [2,0]', function () {
+            expect(Practice.incrementIntRepresentedAsArray([1, 9])).to.eql([2, 0]);
+        });
+
+        it('will increment [9,9,9] to [1,0,0,0]', function () {
+            expect(Practice.incrementIntRepresentedAsArray([9, 9, 9])).to.eql([1, 0, 0, 0]);
+        });
+
+        it('will increment [-1] to [0]', function () {
+            expect(Practice.incrementIntRepresentedAsArray([-1])).to.eql([0]);
+        });
+
+        it('will increment [-2] to [-3]', function () {
+            expect(Practice.incrementIntRepresentedAsArray([-2])).to.eql([-1]);
+        });
+
+        it('will increment [-1,0] to [-9]', function () {
+            expect(Practice.incrementIntRepresentedAsArray([-1, 0])).to.eql([-9]);
+        });
+
+        it('will increment [-1,0,0] to [-9,9]', function () {
+            expect(Practice.incrementIntRepresentedAsArray([-1, 0, 0])).to.eql([-9, 9]);
+        });
+    });
 });

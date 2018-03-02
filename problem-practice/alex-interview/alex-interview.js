@@ -319,6 +319,60 @@ class Practice {
 
         return false;
     }
+
+    // given an integer array where each index contains a single digit of a large number, increment the number.
+    // for example, if the array contains [9,9] then return an array that contains [1,0,0]
+    static incrementIntRepresentedAsArray(originalArr) {
+        // assume arr = [7, 9, 9] - output should be [8, 0, 0]
+        // assume arr = [-1, 0, 0] - output should be [-9, 9]
+        const arr = [...originalArr];
+        const negative = arr[0] < 0;
+        if (!negative) {
+            // positive
+            for (let i = arr.length - 1; i >= 0; i--) {
+                if (arr[i] === 9) {
+                    arr[i] = 0;
+                    if (i === 0) {
+                        arr.unshift(1);
+                    }
+                }
+                else {
+                    arr[i] = arr[i] + 1;
+                    break;
+                }
+            }
+        }
+        else {
+            // negative
+            if (arr.length === 1) {
+                arr[0] = arr[0] + 1;
+            }
+            else {
+                for (let i = arr.length - 1; i >= 0; i--) {
+                    if (i === 0) {
+                        if (arr[i] === -1) {
+                            arr.shift();
+                            arr[0] = -arr[0];
+                        }
+                        else {
+                            arr[i] = arr[i] + 1;
+                        }
+                    }
+                    else {
+                        if (arr[i] === 0) {
+                            arr[i] = 9;
+                        }
+                        else {
+                            arr[i] = arr[i] - 1;
+                            break;
+                        }
+                    }
+
+                }
+            }
+        }
+        return arr;
+    }
 }
 
 module.exports = Practice;
