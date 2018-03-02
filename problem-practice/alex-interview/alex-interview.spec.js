@@ -287,13 +287,6 @@ describe('Practice', function () {
 
     describe('countZeroesNaive', function () {
 
-        // 000000 - 000099 =     10
-        // 000000 - 000999 =    190
-        // 000000 - 005000 =   1393
-        // 000000 - 009999 =   2890
-        // 000000 - 099999 =  38890
-        // 000000 - 999999 = 488890
-
         it('counts zeroes between 0 and 99', function () {
             expect(Practice.countZeroesNaive(99)).to.equal(10);
         });
@@ -320,6 +313,37 @@ describe('Practice', function () {
 
         it('counts zeroes between 0 and 999999', function () {
             expect(Practice.countZeroesNaive(999999)).to.equal(488890);
+        });
+    });
+
+    describe('countZeroes', function () {
+
+        it('counts zeroes between 0 and 99', function () {
+            expect(Practice.countZeroes(99)).to.equal(10);
+        });
+
+        it('counts zeroes between 0 and 999', function () {
+            expect(Practice.countZeroes(999)).to.equal(190);
+        });
+
+        it('counts zeroes between 0 and 2014', function () {
+            expect(Practice.countZeroes(2014)).to.equal(517);
+        });
+
+        it('counts zeroes between 0 and 5000', function () {
+            expect(Practice.countZeroes(5000)).to.equal(1393);
+        });
+
+        it('counts zeroes between 0 and 9999', function () {
+            expect(Practice.countZeroes(9999)).to.equal(2890);
+        });
+
+        it('counts zeroes between 0 and 99999', function () {
+            expect(Practice.countZeroes(99999)).to.equal(38890);
+        });
+
+        it('counts zeroes between 0 and 999999', function () {
+            expect(Practice.countZeroes(999999)).to.equal(488890);
         });
     });
 });
