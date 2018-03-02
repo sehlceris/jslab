@@ -169,6 +169,78 @@ class Practice {
             index: lowestIndex
         };
     }
+
+    // given a rand5() function that generates random numbers between 1 and 5, utilize it to generate a random number between 1 and 7
+    static randomNumberBetween1And7() {
+        const rand5 = function () {
+            return 1 + Math.random() * 4;
+        };
+        const rands = [];
+        for (let i = 0; i < 6; i++) {
+            rands.push(rand5());
+        }
+        let indexOfLowestRand = 0;
+        let lowestRand = rands[0];
+        for (let i = 1; i < rands.length; i++) {
+            if (rands[i] < lowestRand) {
+                lowestRand = rands[i];
+                indexOfLowestRand = i;
+            }
+        }
+        const randomIntBetween1And6 = indexOfLowestRand + 1;
+        const randBetween0And1 = ((rand5() - 1) / 4);
+
+        return randomIntBetween1And6 + randBetween0And1;
+    }
+
+    //for a sequential range of 0 - N, e.g. [0, 1, 2, ... 10, ... 20, ... 100, 101] count the number of zeros in all the numbers
+    static countZeroesNaive(n, start = 0) {
+        const numsWithZero = [];
+        for (let i = start; i <= n; i++) {
+            const str = String(i);
+            if (str.indexOf('0') > -1) {
+                numsWithZero.push(i);
+            }
+        }
+
+        const zeroCount = numsWithZero.reduce((acc, it) => {
+            const str = String(it);
+            const zeroes = str.split('').filter(char => char === '0').length;
+            return acc + zeroes;
+        }, 0);
+
+        return zeroCount;
+    }
+
+    // for a sequential range of 0 - N, e.g. [0, 1, 2, ... 10, ... 20, ... 100, 101] count the number of zeros in all the numbers
+    // TODO: Is this too difficult to find a shortcut for...? I got tired of trying and gave up!
+    static countZeroes(n) {
+
+        /**
+         *     1 -   99 =   10 = 1 * 9 * 10
+         *   100 -  199 =   20 =
+         *   100 -  999 =  180 = 2 * 9 * 10
+         *  1000 - 1999 =  300 =
+         *  1000 - 9999 = 2700 = 3 * 9 * 100
+         */
+
+        let workingN = n;
+        let count = 1;
+        while (workingN > 10) {
+
+            let level = Math.floor(Math.log10(workingN));
+
+            let maxAtThisLevel = Math.pow(10, level - 1);
+            if (workingN < maxAtThisLevel) {
+                workingN = 0;
+            } else {
+                count += (level * 9 * Math.pow(10, level - 1));
+                workingN /= 10;
+            }
+        }
+
+        return count;
+    }
 }
 
 module.exports = Practice;

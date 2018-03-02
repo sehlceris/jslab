@@ -251,4 +251,75 @@ describe('Practice', function () {
         })
 
     });
+
+    describe('randomNumberBetween1And7', function () {
+
+        it('returns numbers between 1 and 7 and averages 4', function () {
+            const ITERATIONS_TO_TEST = 10;
+            const ITERATIONS_TO_AVERAGE = 10000;
+            const WIGGLE_ROOM = 0.1;
+            const EXPECTED_AVERAGE = 4;
+            const LOWEST = 1;
+            const HIGHEST = 7;
+
+            for (let j = 0; j < ITERATIONS_TO_TEST; j++) {
+                let sum = 0;
+                let lowestRand = Infinity;
+                let highestRand = -1;
+
+                for (let i = 0; i < ITERATIONS_TO_AVERAGE; i++) {
+                    const rand = Practice.randomNumberBetween1And7();
+                    if (rand > highestRand) {
+                        highestRand = rand;
+                    }
+                    else if (rand < lowestRand) {
+                        lowestRand = rand;
+                    }
+                    sum += rand;
+                }
+                const average = sum / ITERATIONS_TO_AVERAGE;
+                expect(average).to.be.within(EXPECTED_AVERAGE - WIGGLE_ROOM, EXPECTED_AVERAGE + WIGGLE_ROOM);
+                expect(lowestRand).not.to.be.lessThan(LOWEST);
+                expect(highestRand).not.to.be.greaterThan(HIGHEST);
+            }
+        });
+    });
+
+    describe('countZeroesNaive', function () {
+
+        // 000000 - 000099 =     10
+        // 000000 - 000999 =    190
+        // 000000 - 005000 =   1393
+        // 000000 - 009999 =   2890
+        // 000000 - 099999 =  38890
+        // 000000 - 999999 = 488890
+
+        it('counts zeroes between 0 and 99', function () {
+            expect(Practice.countZeroesNaive(99)).to.equal(10);
+        });
+
+        it('counts zeroes between 0 and 999', function () {
+            expect(Practice.countZeroesNaive(999)).to.equal(190);
+        });
+
+        it('counts zeroes between 0 and 2014', function () {
+            expect(Practice.countZeroesNaive(2014)).to.equal(517);
+        });
+
+        it('counts zeroes between 0 and 5000', function () {
+            expect(Practice.countZeroesNaive(5000)).to.equal(1393);
+        });
+
+        it('counts zeroes between 0 and 9999', function () {
+            expect(Practice.countZeroesNaive(9999)).to.equal(2890);
+        });
+
+        it('counts zeroes between 0 and 99999', function () {
+            expect(Practice.countZeroesNaive(99999)).to.equal(38890);
+        });
+
+        it('counts zeroes between 0 and 999999', function () {
+            expect(Practice.countZeroesNaive(999999)).to.equal(488890);
+        });
+    });
 });
