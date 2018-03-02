@@ -321,10 +321,9 @@ class Practice {
     }
 
     // given an integer array where each index contains a single digit of a large number, increment the number.
-    // for example, if the array contains [9,9] then return an array that contains [1,0,0]
+    // example: [7, 9, 9] -> [8, 0, 0]
+    // example: [-1, 0, 0] -> [-9, 9]
     static incrementIntRepresentedAsArray(originalArr) {
-        // assume arr = [7, 9, 9] - output should be [8, 0, 0]
-        // assume arr = [-1, 0, 0] - output should be [-9, 9]
         const arr = [...originalArr];
         const negative = arr[0] < 0;
         if (!negative) {
