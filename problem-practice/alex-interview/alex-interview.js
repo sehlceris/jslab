@@ -67,6 +67,7 @@ class Practice {
         } : null;
     }
 
+    // check whether or not N is a prime number (no input validation required)
     static checkIfPrime(n) {
         if (n === 0 || n === 1) {
             return false;
@@ -79,6 +80,7 @@ class Practice {
         return true;
     }
 
+    // find the prime factors of N (a factor is a number that N can be divided by to produce an integer)
     static findPrimeFactors(n) {
         const factors = [];
         for (let i = 2; i <= Math.max(n / 2); i++) {
@@ -92,6 +94,7 @@ class Practice {
         return factors.filter(f => this.checkIfPrime(f));
     }
 
+    // merge two sorted arrays and return another sorted array
     static mergeSortedArrays(arr1, arr2) {
         const merged = [];
 
@@ -120,6 +123,7 @@ class Practice {
         return merged;
     }
 
+    // reverse the characters in a string, recursively
     static reverseStringRecursive(str) {
         if (!str || !str.length) {
             return '';
@@ -128,10 +132,12 @@ class Practice {
         return result;
     }
 
+    // reverse the words in a string. you may trim whitespace if necessary
     static reverseWordsInString(str) {
         return str.split(/\s+/).filter(it => it.trim().length > 0).map(it => it.trim()).reverse().join(' ');
     }
 
+    // find the first non-repeating character in a string, and return { char: (the char), index: (index it first appears at) }
     static firstNonRepeatingCharacterInAString(str) {
         const charMap = {};
 
@@ -171,6 +177,7 @@ class Practice {
     }
 
     // given a rand5() function that generates random numbers between 1 and 5, utilize it to generate a random number between 1 and 7
+    // a truly random distribution will average 4 over time
     static randomNumberBetween1And7() {
         const rand5 = function () {
             return 1 + Math.random() * 4;
@@ -193,7 +200,8 @@ class Practice {
         return randomIntBetween1And6 + randBetween0And1;
     }
 
-    //for a sequential range of 0 - N, e.g. [0, 1, 2, ... 10, ... 20, ... 100, 101] count the number of zeros in all the numbers
+    // for a sequential range of 0 - N, e.g. [0, 1, 2, ... 10, ... 20, ... 100, 101] count the number of zeros in all the numbers
+    // examples: n=1: 0; n=99: 10; n=2014: 517
     static countZeroesNaive(n, start = 0) {
         const numsWithZero = [];
         for (let i = start; i <= n; i++) {
