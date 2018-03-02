@@ -224,22 +224,86 @@ class Practice {
          *  1000 - 9999 = 2700 = 3 * 9 * 100
          */
 
+        let remaining = n;
         let workingN = n;
         let count = 1;
         while (workingN > 10) {
 
             let level = Math.floor(Math.log10(workingN));
+            let maxAtThisLevel = Math.pow(10, level + 1) - 1;
 
-            let maxAtThisLevel = Math.pow(10, level - 1);
             if (workingN < maxAtThisLevel) {
+                remaining = workingN;
+                count += this.countZeroesNaive(remaining) - 1; // TODO: CHEATING!
                 workingN = 0;
             } else {
                 count += (level * 9 * Math.pow(10, level - 1));
+                remaining -= workingN;
                 workingN /= 10;
             }
         }
 
         return count;
+    }
+
+    // deep equal. WAY TOO HARD! I abandoned this midway.
+    static deepEqual(a, b) {
+        if (a === b || (a === NaN && b === NaN)) {
+            return true;
+        }
+
+        if (a instanceof Array || b instanceof Array) {
+            if (!(a instanceof Array) || !(b instanceof Array)) {
+                return false;
+            }
+            else if (a.length !== b.length) {
+                return false;
+            }
+            else {
+                for (let i = 0; i < a.length; i++) {
+                    if (!this.deepEqual(a[i], b[i])) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        else if (typeof(a) === 'object' && typeof(b) === 'object') {
+            let mismatch = false;
+            for (let key in a) {
+                if (!this.deepEqual(a[key], b[key])) {
+                    mismatch = true;
+                }
+            }
+            if (mismatch) {
+                return false;
+            }
+
+            if (a instanceof Map || b instanceof Map) {
+                if (!(a instanceof Map) || !(b instanceof Map)) {
+                    mismatch = true;
+                }
+                else {
+                    const keys = a.keys();
+                    for (const key of keys) {
+                        console.log(`key: ${key}`)
+                        if (!deepEqual(a.get(key), b.get(key))) {
+                            mismatch = true;
+                        }
+                    }
+                    if (a.size !== b.size) {
+                        mismatch = true;
+                    }
+                }
+            }
+            else if (a instanceof Set || b instanceof Set) {
+                // TODO: along with Buffer and others! This is WAY too hard!
+            }
+
+            return !mismatch;
+        }
+
+        return false;
     }
 }
 

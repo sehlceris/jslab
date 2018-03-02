@@ -346,4 +346,114 @@ describe('Practice', function () {
             expect(Practice.countZeroes(999999)).to.equal(488890);
         });
     });
+
+    describe('deepEqual', function () {
+
+        it('compares matching primitives', function () {
+            const o1 = 'a';
+            const o2 = 'a';
+            expect(Practice.deepEqual(o1, o2)).to.be.true;
+        });
+
+        it('compares nonmatching primitives', function () {
+            const o1 = 'a';
+            const o2 = 'b';
+            expect(Practice.deepEqual(o1, o2)).to.be.false;
+        });
+
+        it('compares matching arrays of primitives', function () {
+            const o1 = ['a', 'b', 1, 2];
+            const o2 = ['a', 'b', 1, 2];
+            expect(Practice.deepEqual(o1, o2)).to.be.true;
+        });
+
+        it('compares nonmatching arrays of primitives', function () {
+            const o1 = ['a', 'b', 1, 2];
+            const o2 = ['a', 'c', 1, 2];
+            expect(Practice.deepEqual(o1, o2)).to.be.false;
+        });
+
+        it('compares matching objects of primitives', function () {
+            const o1 = {
+                a: 1,
+                b: 2,
+                c: 3
+            };
+            const o2 = {
+                a: 1,
+                b: 2,
+                c: 3
+            };
+            expect(Practice.deepEqual(o1, o2)).to.be.true;
+        });
+
+        it('compares nonmatching objects of primitives', function () {
+            const o1 = {
+                a: 1,
+                b: 2,
+                c: 3
+            };
+            const o2 = {
+                a: 1,
+                b: 2,
+                c: 4
+            };
+            expect(Practice.deepEqual(o1, o2)).to.be.false;
+        });
+
+        it('compares matching arrays of arrays', function () {
+            const o1 = [[1, 2], [2, 3], [3, 4]];
+            const o2 = [[1, 2], [2, 3], [3, 4]];
+            expect(Practice.deepEqual(o1, o2)).to.be.true;
+        });
+
+        it('compares nonmatching arrays of arrays', function () {
+            const o1 = [[1, 2], [2, 3], [3, 4]];
+            const o2 = [[1, 2], [2, 3], [3, 5]];
+            expect(Practice.deepEqual(o1, o2)).to.be.false;
+        });
+
+        it('compares matching objects of objects', function () {
+            const o1 = {
+                a: {a: 1},
+                b: {a: 1},
+                c: {a: 1}
+            };
+            const o2 = {
+                a: {a: 1},
+                b: {a: 1},
+                c: {a: 1}
+            };
+            expect(Practice.deepEqual(o1, o2)).to.be.true;
+        });
+
+        it('compares nonmatching objects of objects', function () {
+            const o1 = {
+                a: {a: 1},
+                b: {a: 1},
+                c: {a: 1}
+            };
+            const o2 = {
+                a: {a: 1},
+                b: {a: 1},
+                c: {b: 1}
+            };
+            expect(Practice.deepEqual(o1, o2)).to.be.false;
+        });
+
+        it('compares matching maps', function () {
+            const o1 = new Map();
+            const o2 = new Map();
+            expect(Practice.deepEqual(o1, o2)).to.be.true;
+        });
+
+        it('compares nonmatching maps', function () {
+            const o1 = new Map();
+            const o2 = new Map();
+
+            o2.set('x', 'y');
+
+            expect(Practice.deepEqual(o1, o2)).to.be.false;
+        });
+    });
 });
