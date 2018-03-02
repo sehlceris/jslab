@@ -353,24 +353,28 @@ describe('Practice', function () {
             const o1 = 'a';
             const o2 = 'a';
             expect(Practice.deepEqual(o1, o2)).to.be.true;
+            expect(Practice.deepEqual(o2, o1)).to.be.true;
         });
 
         it('compares nonmatching primitives', function () {
             const o1 = 'a';
             const o2 = 'b';
             expect(Practice.deepEqual(o1, o2)).to.be.false;
+            expect(Practice.deepEqual(o2, o1)).to.be.false;
         });
 
         it('compares matching arrays of primitives', function () {
             const o1 = ['a', 'b', 1, 2];
             const o2 = ['a', 'b', 1, 2];
             expect(Practice.deepEqual(o1, o2)).to.be.true;
+            expect(Practice.deepEqual(o2, o1)).to.be.true;
         });
 
         it('compares nonmatching arrays of primitives', function () {
             const o1 = ['a', 'b', 1, 2];
             const o2 = ['a', 'c', 1, 2];
             expect(Practice.deepEqual(o1, o2)).to.be.false;
+            expect(Practice.deepEqual(o2, o1)).to.be.false;
         });
 
         it('compares matching objects of primitives', function () {
@@ -385,6 +389,7 @@ describe('Practice', function () {
                 c: 3
             };
             expect(Practice.deepEqual(o1, o2)).to.be.true;
+            expect(Practice.deepEqual(o2, o1)).to.be.true;
         });
 
         it('compares nonmatching objects of primitives', function () {
@@ -399,18 +404,21 @@ describe('Practice', function () {
                 c: 4
             };
             expect(Practice.deepEqual(o1, o2)).to.be.false;
+            expect(Practice.deepEqual(o2, o1)).to.be.false;
         });
 
         it('compares matching arrays of arrays', function () {
             const o1 = [[1, 2], [2, 3], [3, 4]];
             const o2 = [[1, 2], [2, 3], [3, 4]];
             expect(Practice.deepEqual(o1, o2)).to.be.true;
+            expect(Practice.deepEqual(o2, o1)).to.be.true;
         });
 
         it('compares nonmatching arrays of arrays', function () {
             const o1 = [[1, 2], [2, 3], [3, 4]];
             const o2 = [[1, 2], [2, 3], [3, 5]];
             expect(Practice.deepEqual(o1, o2)).to.be.false;
+            expect(Practice.deepEqual(o2, o1)).to.be.false;
         });
 
         it('compares matching objects of objects', function () {
@@ -425,6 +433,7 @@ describe('Practice', function () {
                 c: {a: 1}
             };
             expect(Practice.deepEqual(o1, o2)).to.be.true;
+            expect(Practice.deepEqual(o2, o1)).to.be.true;
         });
 
         it('compares nonmatching objects of objects', function () {
@@ -439,12 +448,19 @@ describe('Practice', function () {
                 c: {b: 1}
             };
             expect(Practice.deepEqual(o1, o2)).to.be.false;
+            expect(Practice.deepEqual(o2, o1)).to.be.false;
         });
 
         it('compares matching maps', function () {
             const o1 = new Map();
             const o2 = new Map();
             expect(Practice.deepEqual(o1, o2)).to.be.true;
+            expect(Practice.deepEqual(o2, o1)).to.be.true;
+
+            o1.set('a', 1);
+            o2.set('a', 1);
+            expect(Practice.deepEqual(o1, o2)).to.be.true;
+            expect(Practice.deepEqual(o2, o1)).to.be.true;
         });
 
         it('compares nonmatching maps', function () {
@@ -452,8 +468,33 @@ describe('Practice', function () {
             const o2 = new Map();
 
             o2.set('x', 'y');
-
             expect(Practice.deepEqual(o1, o2)).to.be.false;
+
+            o1.set('x', 'z');
+            expect(Practice.deepEqual(o2, o1)).to.be.false;
+        });
+
+        it('compares matching sets', function () {
+            const o1 = new Set();
+            const o2 = new Set();
+            expect(Practice.deepEqual(o1, o2)).to.be.true;
+            expect(Practice.deepEqual(o2, o1)).to.be.true;
+
+            o1.add('a');
+            o2.add('a');
+            expect(Practice.deepEqual(o1, o2)).to.be.true;
+            expect(Practice.deepEqual(o2, o1)).to.be.true;
+        });
+
+        it('compares nonmatching sets', function () {
+            const o1 = new Set();
+            const o2 = new Set();
+
+            o2.add('x');
+            expect(Practice.deepEqual(o1, o2)).to.be.false;
+
+            o1.add('y');
+            expect(Practice.deepEqual(o2, o1)).to.be.false;
         });
     });
 });

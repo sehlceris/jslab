@@ -270,34 +270,48 @@ class Practice {
         }
         else if (typeof(a) === 'object' && typeof(b) === 'object') {
             let mismatch = false;
-            for (let key in a) {
-                if (!this.deepEqual(a[key], b[key])) {
-                    mismatch = true;
-                }
-            }
-            if (mismatch) {
-                return false;
-            }
 
             if (a instanceof Map || b instanceof Map) {
                 if (!(a instanceof Map) || !(b instanceof Map)) {
                     mismatch = true;
                 }
+                else if (a.size !== b.size) {
+                    mismatch = true;
+                }
                 else {
                     const keys = a.keys();
-                    for (const key of keys) {
-                        console.log(`key: ${key}`)
-                        if (!deepEqual(a.get(key), b.get(key))) {
+                    for (let key of keys) {
+                        if (!this.deepEqual(a.get(key), b.get(key))) {
                             mismatch = true;
                         }
-                    }
-                    if (a.size !== b.size) {
-                        mismatch = true;
                     }
                 }
             }
             else if (a instanceof Set || b instanceof Set) {
-                // TODO: along with Buffer and others! This is WAY too hard!
+                if (!(a instanceof Set) || !(b instanceof Set)) {
+                    mismatch = true;
+                }
+                else if (a.size !== b.size) {
+                    mismatch = true;
+                }
+                else {
+                    for (const el of a) {
+                        if (!b.has(el)) {
+                            mismatch = true;
+                        }
+                    }
+                }
+            }
+            else if (a instanceof Buffer || b instanceof Buffer) {
+                // TODO: along with others! This is WAY too hard!
+            }
+            else {
+                // the default object behavior
+                for (let key in a) {
+                    if (!this.deepEqual(a[key], b[key])) {
+                        mismatch = true;
+                    }
+                }
             }
 
             return !mismatch;
