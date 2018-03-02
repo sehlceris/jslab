@@ -1,5 +1,5 @@
 const expect = require("chai").expect;
-const Practice = require('./alex-interview');
+const Practice = require('./practice-problems');
 
 describe('Practice', function () {
     describe('getIntsNotInArrayOfRange', function () {
