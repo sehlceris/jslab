@@ -4,17 +4,37 @@
 
 ### What are the differences between AngularJS (angular 1.x) and Angular (Angular 2.x and beyond)?
 
+- Angular 2+ is a complete rewrite compared to AngularJS.
+- Angular 2+ utilizes TypeScript internally, and it is strongly encouraged to use TypeScript with your project.
+- Angular 2+ is faster and has better mobile support.
+- Angular 2+ does away with controllers, instead replacing them with Components.
+- Angular 2+ uses `Zone.js` to run change detection instead of `$scope`.
+- Dependency injection is accomplished using TypeScript's Types. After compilation, this type information is retained using `Reflect.metadata`
 
 
 ### What is a component? Why would you use it?
 
+A component is a directive that displays UI. Components always have a HTML template or templateUrl. You use components to encapsulate a piece of UI functionality in your app.
+
 ### What is the minimum definition of a component?
+
+You use the `@Component` decorator with either a `template` or `templateUrl`. The selector is optional (you may show a component using a Route instead)
+
+```
+@Component({
+  selector: 'app-new-payment',
+  templateUrl: './new-payment.component.html',
+  styleUrls: ['./new-payment.component.scss']
+})
+export class NewPaymentComponent implements OnInit, OnDestroy {
+}
+```
 
 ### What is a module, and what does it contain?
 
-### What is a service, and when will you use it?
 
-### What is a promise? Explain it laymen's terms.
+
+### What is a service, and when will you use it?
 
 ### What are the lifecycle hooks for components and directives?
 
