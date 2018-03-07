@@ -32,13 +32,23 @@ export class NewPaymentComponent implements OnInit, OnDestroy {
 
 ### What is a module, and what does it contain?
 
+Every Angular app has at least one NgModule class, the root module, conventionally named AppModule. Is a piece of code that encapsulates Components, Directives, Services, Routes, and other things.
 
+Typically, a module represents a specific feature or area of the application. Modules may be lazily-loaded if not needed at application start.
 
 ### What is a service, and when will you use it?
 
-### What are the lifecycle hooks for components and directives?
+A service is a class that has the `@Injectable()` decorator, and is provided to the Angular DI system. Services can be injected into other services and components.
+
+Typically, services encapsulate a specific set of functions or data, such as authentication and auth state, e.g. `auth.service.ts`
 
 ### What are pipes? Give me an example.
+
+Pipes are utilized in Angular template HTML to modify the display or formatting of data. An example is the number pipe, which formats (adds commas) to your numbers depending on your locale.
+
+```angular2html
+<div>{{totalCost | number}}</div>
+```
 
 ### What are the differences between reactive forms and template driven forms?
 
