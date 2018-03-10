@@ -203,6 +203,31 @@ export class MySmartComponent implements OnInit {
 
 Smart components are application-specific and are difficult to reuse.
 
+### What is the Difference Between a Subject and BehaviorSubject?
+
+`Subject` is a class in Angular that behaves like an event bus. Subjects can be subscribed to like a regular observable.
+
+```typescript
+const s = new Subject();
+s.next('hello');
+s.subscribe(value => console.log(value));
+s.next('world!');
+// "world" is printed, but not "hello"
+```
+
+A `BehaviorSubject` is a subclass of `Subject` that, when subscribed to, emits the last value of that `BehaviorSubject`, which is more useful in many situations.
+
+
+```typescript
+const s = new BehaviorSubject();
+s.next('hello');
+s.subscribe(value => console.log(value));
+s.next('world!');
+// both "hello" and "world" are printed
+// also, the BehaviorSubject also has a getValue() function to retrieve the last value of the stream:
+console.log(s.getValue());
+```
+
 ## building a simple app
 
 ### How do components communicate with each other?
