@@ -205,7 +205,7 @@ Smart components are application-specific and are difficult to reuse.
 
 ### What is the Difference Between a Subject and BehaviorSubject?
 
-`Subject` is a class in Angular that behaves like an event bus. Subjects can be subscribed to like a regular observable.
+`Subject` is a `RxJS` class that behaves like an event bus. Subjects can be subscribed to like a regular observable.
 
 ```typescript
 const s = new Subject();
@@ -227,6 +227,12 @@ s.next('world!');
 // also, the BehaviorSubject also has a getValue() function to retrieve the last value of the stream:
 console.log(s.getValue());
 ```
+
+### What's the difference between a Hot and Cold Observable?
+
+Cold observables start running upon subscription, i.e., the observable sequence only starts pushing values to the observers when Subscribe is called. Values are also not shared among subscribers - a separate processing chain is used for each subscriber. This means that cold observables such as HTTP calls may run twice if they have two subscribers.
+
+When an observer subscribes to a hot observable sequence, it will get all values in the stream that are emitted after it subscribes. The hot observable sequence is shared among all subscribers, and each subscriber is pushed the next value in the sequence. For example, even if no one has subscribed to a particular stock ticker, the ticker will continue to update its value based on market movement. When a subscriber registers interest in this ticker, it will automatically receive the next tick.
 
 ## building a simple app
 
@@ -429,6 +435,33 @@ export class MyComponent {
             .subscribe((params) => {
                 console.log(params[id]);
             });
+    }
+}
+```
+
+### How would you create an observable data service?
+
+Create an injectable service that does NOT expose the internal Subject, but only the observable. This prevents clients from causing the subject to emit.
+
+```typescript
+@Injectable()
+export class TodoStore {
+    private _todos: BehaviorSubject<List<Todo>> = new BehaviorSubject(List([]));
+
+    public readonly todos: Observable<List<Todo>> = this._todos.asObservable();
+
+    constructor(private todoBackendService: TodoBackendService) {
+        this.loadInitialData();
+    }
+    
+    addTodo(newTodo:Todo):Observable {
+        let obs = this.todoBackendService.saveTodo(newTodo);
+    
+        obs.subscribe(
+            res => {
+                this._todos.next(this._todos.getValue().push(newTodo));
+            });
+        return obs;
     }
 }
 ```
