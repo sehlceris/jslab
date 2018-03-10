@@ -163,6 +163,45 @@ export class MyComponent {
 
 ### What is a dumb, or presentation, component? What are the benefits of using dumb components?
 
+#### Dumb (Presentational) Component
+
+Dumb components do not access the greater application state (such as data services or `@ngrx/store`). Instead, they have only inputs and outputs. All state they access is local to the component itself.
+
+```typescript
+@Component({})
+export class MyDumbComponent {
+    @Output('onDataChange') onDataChange = new EventEmitter<string>();
+    @Input() title:string;
+    constructor() {
+        setTimeout(() => this.onDataChange.emit(this.title + ' WOO'), 500);
+    }
+}
+```
+
+Dumb components have the following advantages:
+- More predictable during use. They will never unexpectedly alter or use the state of your greater application.
+- More reusable. May be reused to display different sets of data in different parts of the application, or even other applications.
+
+#### Smart Component
+
+Smart components have access to and may manipulate the state of your greater application. They either have data services injected or stores injected into them.
+
+```typescript
+@Component({})
+export class MySmartComponent implements OnInit {
+    constructor(private myService: MyService, private store: Store<fromApp.AppState>) {
+        
+    }
+    
+    ngOnInit() {
+        this.myService.pullSomeData();
+        this.store.select('auth')
+            .subscribe((authState) => { console.log(user.name) });
+    }
+}
+```
+
+Smart components are application-specific and are difficult to reuse.
 
 ## building a simple app
 
