@@ -434,3 +434,24 @@ export class TodoStore {
     }
 }
 ```
+
+## basic concepts
+
+### Why Angular over another framework, such as React?
+
+### What is RxJS?
+
+RxJS stands for "Reactive Extensions for JS" and provides an implementation of `Observable`. In addition, it provides extensions to the `Observable` class, allowing the programmer to manipulate the data streams produced by observables. For example, a programmer can filter data in the stream, or map it to return something else.
+
+```typescript
+const request$ = this.httpClient.get(uri)
+    .map(result => result.authToken)
+```
+
+### What is Zone.js?
+
+Zone.js provides an execution context for async tasks. Angular uses it for change detection.
+
+### Why ngOnInit() instead of Constructor?
+
+`ngOnChanges` has not run yet when the constructor is invoked on a directive. This means that the data inputs from `@Input` have not been initialized. Also, it is simply good practice to put as little code in the constructor as possible.
