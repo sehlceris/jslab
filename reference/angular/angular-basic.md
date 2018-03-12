@@ -52,7 +52,155 @@ Pipes are utilized in Angular template HTML to modify the display or formatting 
 
 ### What are the differences between reactive forms and template driven forms?
 
+Template-driven forms are easier to start with and have less boilerplate code, but Reactive forms are more powerful and flexible.
+
+Reactive forms allow you to better control the form values in code. They also allow you to more easily test the forms. Lastly, they enable reactive programming because the FormGroup provides a `form.valueChanges` `Observable` that can be subscribed to:
+
+```typescript
+this.form.valueChanges
+        .map((value) => {
+            value.firstName = value.firstName.toUpperCase();
+            return value;
+        })
+        .filter((value) => this.form.valid)
+        .subscribe((value) => {
+           console.log(JSON.stringify(value);
+        });
+```
+
+#### Template-driven forms
+
+Import the FormsModule (template-driven forms)
+```typescript
+// app.module.ts
+import {FormsModule} from "@angular/forms";
+
+@NgModule({
+    declarations: [AppComponent],
+    imports: [FormsModule],
+    bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
+
+The HTML should specify a local reference for `ngForm`, and `ngSubmit` should send that form to the controller. Each input must have a name and may be bound to `ngModel`.
+```angular2html
+<form #myTemplateForm="ngForm" (ngSubmit)="onFormSubmit(myTemplateForm)">
+    <input
+    type="text"  
+    [(ngModel)]="user.firstName"
+    name="firstName"
+    required
+    >
+</form>
+```
+
+The component is very simple and has just an `onFormSubmit` function which is passed a `NgForm`.
+```typescript
+// my.component.ts
+
+@Component({})
+export class MyComponent {
+    user = { firstName: '' };
+    
+    onFormSubmit(form:NgForm) {
+        
+    }
+}
+```
+
+
+#### Reactive Forms
+
+```typescript
+// app.module.ts
+import {ReactiveFormsModule} from "@angular/forms";
+
+@NgModule({
+    declarations: [AppComponent],
+    imports: [ReactiveFormsModule],
+    bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
+
+The HTML should have a `formGroup` directive that binds to `myForm`, which is a `FormGroup` inside the controller.
+```angular2html
+<form [formGroup]="myForm" (ngSubmit)="onFormSubmit()">
+    <input
+    type="text"
+    formControlName="firstName"
+    name="firstName"
+    required
+    >
+</form>
+```
+
+```typescript
+// my.component.ts
+
+
+@Component({})
+export class MyComponent {
+    
+    myForm: FormGroup;
+    
+    user = { firstName: '' };
+    
+    constructor() {
+        this.myForm = new FormGroup({
+            firstName: new FormControl('Chris', [Validators.required])
+        })
+    }
+    
+    onFormSubmit() {
+        // this.myForm.valid
+    }
+}
+```
+
+
 ### What is a dumb, or presentation, component? What are the benefits of using dumb components?
+
+#### Dumb (Presentational) Component
+
+Dumb components do not access the greater application state (such as data services or `@ngrx/store`). Instead, they have only inputs and outputs. All state they access is local to the component itself.
+
+```typescript
+@Component({})
+export class MyDumbComponent {
+    @Output('onDataChange') onDataChange = new EventEmitter<string>();
+    @Input() title:string;
+    constructor() {
+        setTimeout(() => this.onDataChange.emit(this.title + ' WOO'), 500);
+    }
+}
+```
+
+Dumb components have the following advantages:
+- More predictable during use. They will never unexpectedly alter or use the state of your greater application.
+- More reusable. May be reused to display different sets of data in different parts of the application, or even other applications.
+
+#### Smart Component
+
+Smart components have access to and may manipulate the state of your greater application. They either have data services injected or stores injected into them.
+
+```typescript
+@Component({})
+export class MySmartComponent implements OnInit {
+    constructor(private myService: MyService, private store: Store<fromApp.AppState>) {
+        
+    }
+    
+    ngOnInit() {
+        this.myService.pullSomeData();
+        this.store.select('auth')
+            .subscribe((authState) => { console.log(user.name) });
+    }
+}
+```
+
+Smart components are application-specific and are difficult to reuse.
 
 
 ## building a simple app
@@ -259,3 +407,51 @@ export class MyComponent {
     }
 }
 ```
+
+### How would you create an observable data service?
+
+Create an injectable service that does NOT expose the internal Subject, but only the observable. This prevents clients from causing the subject to emit.
+
+```typescript
+@Injectable()
+export class TodoStore {
+    private _todos: BehaviorSubject<List<Todo>> = new BehaviorSubject(List([]));
+
+    public readonly todos: Observable<List<Todo>> = this._todos.asObservable();
+
+    constructor(private todoBackendService: TodoBackendService) {
+        this.loadInitialData();
+    }
+    
+    addTodo(newTodo:Todo):Observable {
+        let obs = this.todoBackendService.saveTodo(newTodo);
+    
+        obs.subscribe(
+            res => {
+                this._todos.next(this._todos.getValue().push(newTodo));
+            });
+        return obs;
+    }
+}
+```
+
+## basic concepts
+
+### Why Angular over another framework, such as React?
+
+### What is RxJS?
+
+RxJS stands for "Reactive Extensions for JS" and provides an implementation of `Observable`. In addition, it provides extensions to the `Observable` class, allowing the programmer to manipulate the data streams produced by observables. For example, a programmer can filter data in the stream, or map it to return something else.
+
+```typescript
+const request$ = this.httpClient.get(uri)
+    .map(result => result.authToken)
+```
+
+### What is Zone.js?
+
+Zone.js provides an execution context for async tasks. Angular uses it for change detection.
+
+### Why ngOnInit() instead of Constructor?
+
+`ngOnChanges` has not run yet when the constructor is invoked on a directive. This means that the data inputs from `@Input` have not been initialized. Also, it is simply good practice to put as little code in the constructor as possible.
