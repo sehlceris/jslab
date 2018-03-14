@@ -17,8 +17,8 @@ class Practice {
         return [... new Set(arr.filter(i => counts[i] % 2 !== 0))];
     }
 
-    // binary search
-    static binarySearch(arr, el, metadata = false, log = false) {
+    // binary search but with some logging and metadata
+    static binarySearchExtended(arr, el, metadata = false, log = false) {
         if (!arr.length) {
             return null;
         }
@@ -65,6 +65,37 @@ class Practice {
             index: currentTestIndex,
             iterations: iterations
         } : null;
+    }
+
+    // binary search
+    static binarySearch(arr, el) {
+        if (!arr.length) {
+            return null;
+        }
+
+        let currentMinIndex = 0;
+        let currentMaxIndex = arr.length - 1;
+        let currentTestIndex;
+        let currentEl;
+
+        while (currentMinIndex <= currentMaxIndex) {
+
+            currentTestIndex = Math.floor((currentMinIndex + currentMaxIndex) / 2);
+
+            currentEl = arr[currentTestIndex];
+
+            if (el === currentEl) {
+                return currentTestIndex;
+            }
+            else if (el > currentEl) {
+                currentMinIndex = currentTestIndex + 1;
+            }
+            else if (el < currentEl) {
+                currentMaxIndex = currentTestIndex - 1;
+            }
+
+        }
+        return null;
     }
 
     // check whether or not N is a prime number (no input validation required)
