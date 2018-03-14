@@ -1,9 +1,15 @@
 const Practice = require('./practice-problems');
 
+/**
+ * This is a list of problems that I've given up on.
+ */
 class PracticeUnfinished {
 
-    // for a sequential range of 0 - N, e.g. [0, 1, 2, ... 10, ... 20, ... 100, 101] count the number of zeros in all the numbers
-    // TODO: Is this too difficult to find a shortcut for...? I got tired of trying and gave up!
+    /**
+     * For a sequential range of 0 - N, e.g. [0, 1, 2, ... 10, ... 20, ... 100, 101] count the number of zeros in all the numbers
+     * @param n
+     * @returns {number}
+     */
     static countZeroes(n) {
 
         /**
@@ -36,7 +42,12 @@ class PracticeUnfinished {
         return count;
     }
 
-    // deep equal. WAY TOO HARD! I abandoned this midway.
+    /**
+     * Deep equal.
+     * @param a
+     * @param b
+     * @returns {boolean}
+     */
     static deepEqual(a, b) {
         if (a === b || (a === NaN && b === NaN)) {
             return true;
