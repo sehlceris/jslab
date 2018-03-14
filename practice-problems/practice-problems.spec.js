@@ -346,7 +346,7 @@ describe('Practice', function () {
             expect(Practice.incrementIntRepresentedAsArray([-1])).to.eql([0]);
         });
 
-        it('will increment [-2] to [-3]', function () {
+        it('will increment [-2] to [-1]', function () {
             expect(Practice.incrementIntRepresentedAsArray([-2])).to.eql([-1]);
         });
 
