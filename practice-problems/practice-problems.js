@@ -345,9 +345,8 @@ class Practice {
      */
     static twoSum(nums, target) {
         for (let i = 0; i < nums.length; i++) {
-            const complement = target - nums[i];
             for (let j = i + 1; j < nums.length; j++) {
-                if (nums[j] === complement) {
+                if (nums[j] + nums[i] === target) {
                     return [i, j];
                 }
             }
