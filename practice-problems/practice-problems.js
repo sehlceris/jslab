@@ -363,16 +363,11 @@ class Practice {
         while (c1 || c2) {
             let newVal = carry ? 1 : 0;
             carry = false;
-            if (c1 && c2) {
-                newVal += (c1.val + c2.val);
-                c1 = c1.next;
-                c2 = c2.next;
-            }
-            else if (c1) {
+            if (c1) {
                 newVal += c1.val;
                 c1 = c1.next;
             }
-            else if (c2) {
+            if (c2) {
                 newVal += c2.val;
                 c2 = c2.next;
             }
