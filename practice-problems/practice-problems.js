@@ -2,7 +2,15 @@ const {ListNode} = require('./helpers');
 
 class Practice {
 
-    // given an array of ints of size n with a domain from 1 to n where duplicates are allowed, write a method that returns all the eligible values that are not in the array.
+    /**
+     * Given an array of ints of size n with a domain from 1 to n where duplicates are allowed...
+     * Write a method that returns all the eligible values that are not in the array.
+     * example: getIntsNotInArrayOfRange([2,3,4,6,9], 10) -> [1,5,7,8,10]
+     * @param arr
+     * @param max
+     * @param [min = 1]
+     * @returns {*[]}
+     */
     static getIntsNotInArrayOfRange(arr, max, min = 1) {
         const set = new Set(arr);
         const all = [];
@@ -12,64 +20,25 @@ class Practice {
         return all.filter(i => !set.has(i));
     }
 
-    // remove all elements in the list that are repeated an even amount of times
+    /**
+     * Remove all elements in the list that are repeated an even amount of times
+     * example: [1,1,3,3,5,3,5] -> [3,3,3]
+     * @param arr
+     * @returns {*[]}
+     */
     static removeElementsInListWithEvenNumberOfOccurrences(arr) {
         const counts = {};
         arr.forEach(i => counts[i] ? counts[i]++ : counts[i] = 1);
         return [... new Set(arr.filter(i => counts[i] % 2 !== 0))];
     }
 
-    // binary search but with some logging and metadata
-    static binarySearchExtended(arr, el, metadata = false, log = false) {
-        if (!arr.length) {
-            return null;
-        }
-
-        let currentMinIndex = 0;
-        let currentMaxIndex = arr.length - 1;
-
-        let currentTestIndex;
-        let currentEl;
-
-        let iterations = 0;
-
-        while (currentMinIndex <= currentMaxIndex) {
-
-            iterations++;
-
-            currentTestIndex = Math.floor((currentMinIndex + currentMaxIndex) / 2);
-
-            currentEl = arr[currentTestIndex];
-
-            if (el === currentEl) {
-                log ? console.log(`found at i=${currentTestIndex} after ${iterations} iterations`) : null;
-                return metadata ? {
-                    found: true,
-                    item: currentEl,
-                    index: currentTestIndex,
-                    iterations: iterations
-                } : currentTestIndex;
-            }
-            else if (el > currentEl) {
-                currentMinIndex = currentTestIndex + 1;
-                log ? console.log(`currentMinIndex increased to ${currentMinIndex}`) : null;
-            }
-            else if (el < currentEl) {
-                currentMaxIndex = currentTestIndex - 1;
-                log ? console.log(`currentMaxIndex decreased to ${currentMaxIndex}`) : null;
-            }
-
-        }
-        log ? console.log(`not found after ${iterations} iterations`) : null;
-        return metadata ? {
-            found: false,
-            item: null,
-            index: currentTestIndex,
-            iterations: iterations
-        } : null;
-    }
-
-    // binary search
+    /**
+     * Binary search a sorted array for an element and return its index, or null if it is not present in the array.
+     * example: binarySearch([1,2,3,4,5,6,7], 3) -> 2
+     * @param arr
+     * @param el
+     * @returns {number}
+     */
     static binarySearch(arr, el) {
         if (!arr.length) {
             return null;
@@ -100,7 +69,16 @@ class Practice {
         return null;
     }
 
-    // check whether or not N is a prime number (no input validation required)
+    /**
+     * Check whether or not N is a prime number (no input validation required)
+     * example: 0 -> false
+     * example: 1 -> false
+     * example: 2 -> true
+     * example: 3 -> true
+     * example: 4 -> false
+     * @param n
+     * @returns {boolean}
+     */
     static checkIfPrime(n) {
         if (n === 0 || n === 1) {
             return false;
@@ -113,7 +91,16 @@ class Practice {
         return true;
     }
 
-    // find the prime factors of N (a factor is a number that N can be divided by to produce an integer)
+    /**
+     * Find the prime factors of N (a factor is a number that N can be divided by to produce an integer)
+     * example: 0 -> []
+     * example: 1 -> []
+     * example: 2 -> [2]
+     * example: 4 -> [2]
+     * example: 10 -> [2, 5]
+     * @param n
+     * @returns {number[]}
+     */
     static findPrimeFactors(n) {
         const factors = [];
         for (let i = 2; i <= Math.max(n / 2); i++) {
@@ -127,7 +114,13 @@ class Practice {
         return factors.filter(f => this.checkIfPrime(f));
     }
 
-    // merge two sorted arrays and return another sorted array
+    /**
+     * Merge two sorted arrays of numbers and return another sorted array
+     * example: merge([5,6,7], [4,5,9]) => [4,5,5,6,7,9]
+     * @param arr1
+     * @param arr2
+     * @returns {number[]}
+     */
     static mergeSortedArrays(arr1, arr2) {
         const merged = [];
 
@@ -156,7 +149,11 @@ class Practice {
         return merged;
     }
 
-    // reverse the characters in a string, recursively
+    /**
+     * Reverse the characters in a string, recursively
+     * @param str
+     * @returns {string}
+     */
     static reverseStringRecursive(str) {
         if (!str || !str.length) {
             return '';
@@ -165,12 +162,22 @@ class Practice {
         return result;
     }
 
-    // reverse the words in a string. you may trim whitespace if necessary
+    /**
+     * Reverse the words in a string. you may trim whitespace if necessary
+     * @param str
+     * @returns {string}
+     */
     static reverseWordsInString(str) {
         return str.split(/\s+/).filter(it => it.trim().length > 0).map(it => it.trim()).reverse().join(' ');
     }
 
-    // find the first non-repeating character in a string, and return { char: (the char), index: (index it first appears at) }
+    /**
+     * Find the first non-repeating character in a string, and return { char: (the char), index: (index it first appears at) }
+     * You may assume capitalization counts as different characters.
+     * example: "Aardvark" -> { char: 'd', index: 3 }
+     * @param str
+     * @returns {{char: string, index: number}}
+     */
     static firstNonRepeatingCharacterInAString(str) {
         const charMap = {};
 
@@ -209,8 +216,15 @@ class Practice {
         };
     }
 
-    // given a rand5() function that generates random numbers between 1 and 5, utilize it to generate a random number between 1 and 7
-    // a truly random distribution will average 4 over time
+    /**
+     * Given a rand5() function that generates random numbers between 1 and 5, utilize it to generate a random number between 1 and 7
+     *
+     * const rand5 = function () {
+     *  return 1 + Math.random() * 4;
+     * };
+     *
+     * @returns {number}
+     */
     static randomNumberBetween1And7() {
         const rand5 = function () {
             return 1 + Math.random() * 4;
@@ -233,8 +247,13 @@ class Practice {
         return randomIntBetween1And6 + randBetween0And1;
     }
 
-    // for a sequential range of 0 - N, e.g. [0, 1, 2, ... 10, ... 20, ... 100, 101] count the number of zeros in all the numbers
-    // examples: n=1: 0; n=99: 10; n=2014: 517
+    /**
+     * For a sequential range of 0 - N, e.g. [0, 1, 2, ... 10, ... 20, ... 100, 101] count the number of zeros in all the numbers
+     * examples: n=1: 0; n=99: 10; n=2014: 517
+     * @param n - The last number in the range (inclusive)
+     * @param start - The first number in the range (inclusive)
+     * @returns {number}
+     */
     static countZeroesNaive(n, start = 0) {
         const numsWithZero = [];
         for (let i = start; i <= n; i++) {
@@ -253,9 +272,13 @@ class Practice {
         return zeroCount;
     }
 
-    // given an integer array where each index contains a single digit of a large number, increment the number.
-    // example: [7, 9, 9] -> [8, 0, 0]
-    // example: [-1, 0, 0] -> [-9, 9]
+    /**
+     * Given an integer array where each index contains a single digit of a large number, increment the number.
+     * example: [7, 9, 9] -> [8, 0, 0]
+     * example: [-1, 0, 0] -> [-9, 9]
+     * @param {number[]} originalArr
+     * @returns {number[]}
+     */
     static incrementIntRepresentedAsArray(originalArr) {
         const arr = [...originalArr];
         const negative = arr[0] < 0;
