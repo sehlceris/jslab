@@ -1,3 +1,5 @@
+const {ListNode} = require('./helpers');
+
 class Practice {
 
     // given an array of ints of size n with a domain from 1 to n where duplicates are allowed, write a method that returns all the eligible values that are not in the array.
@@ -302,6 +304,95 @@ class Practice {
             }
         }
         return arr;
+    }
+
+    /**
+     * Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+     * You may assume that each input would have exactly one solution, and you may not use the same element twice.
+     *
+     * example: twoSum([2, 7, 11, 9], 9) === [0, 1]
+     * example: twoSum([2, 7, 11, 9], 18) === [1, 2]
+     * example: twoSum([6, 7, 2, 5, 8], 12) === [1, 3]
+     * example: twoSum([1, 2], 12) === null
+     * example: twoSum([6, 1], 12) === null // you may not use the same element twice
+     *
+     * @param {number[]} nums
+     * @param {number} target
+     * @return {number[]}
+     */
+    static twoSum(nums, target) {
+        for (let i = 0; i < nums.length; i++) {
+            const complement = target - nums[i];
+            for (let j = i + 1; j < nums.length; j++) {
+                if (nums[j] === complement) {
+                    return [i, j];
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * You are given two non-empty linked lists representing two non-negative integers.
+     * The digits are stored in reverse order and each of their nodes contain a single digit.
+     * Add the two numbers and return it as a linked list.
+     * You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+     *
+     * example: adds [4,3,2] and [3,2,1] to [7,5,3] (234 + 123 = 357)
+     * example: adds [3,2,1] and [1] to [4,2,1] (123 + 1 = 124)
+     * example: adds [3,2,1] and [0] to [3,2,1] (123 + 0 = 123)
+     * example: adds [7,6,5] and [8,7,3] to [5,4,9] (567 + 378 = 945)
+     * example: adds [7,6,5] and [8,7,5] to [5,4,1,1]  (567 + 578 = 1145)
+     *
+     * Definition for singly-linked list.
+     * function ListNode(val) {
+     *     this.val = val;
+     *     this.next = null;
+     * }
+     *
+     * @param {ListNode} l1
+     * @param {ListNode} l2
+     * @return {ListNode}
+     */
+    static addTwoPositiveNumbersRepresentedByLinkedList(l1, l2) {
+        let carry = false;
+        let firstNode;
+        let currentNode;
+        let c1 = l1;
+        let c2 = l2;
+        while (c1 || c2) {
+            let newVal = carry ? 1 : 0;
+            carry = false;
+            if (c1 && c2) {
+                newVal += (c1.val + c2.val);
+                c1 = c1.next;
+                c2 = c2.next;
+            }
+            else if (c1) {
+                newVal += c1.val;
+                c1 = c1.next;
+            }
+            else if (c2) {
+                newVal += c2.val;
+                c2 = c2.next;
+            }
+            if (newVal >= 10) {
+                carry = true;
+                newVal -= 10;
+            }
+            const newNode = new ListNode(newVal);
+            if (currentNode) {
+                currentNode.next = newNode;
+            }
+            if (!firstNode) {
+                firstNode = newNode;
+            }
+            currentNode = newNode;
+        }
+        if (carry) {
+            currentNode.next = new ListNode(1);
+        }
+        return firstNode;
     }
 }
 

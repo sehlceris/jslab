@@ -1,5 +1,6 @@
 const expect = require("chai").expect;
 const Practice = require('./practice-problems');
+const {ListNode} = require('./helpers');
 
 describe('Practice', function () {
     describe('getIntsNotInArrayOfRange', function () {
@@ -357,5 +358,110 @@ describe('Practice', function () {
         it('will increment [-1,0,0] to [-9,9]', function () {
             expect(Practice.incrementIntRepresentedAsArray([-1, 0, 0])).to.eql([-9, 9]);
         });
+    });
+
+    describe('twoSum', function () {
+
+        it('finds [0, 1] for twoSum([2, 7, 11, 15], 9)', function () {
+            expect(Practice.twoSum([2, 7, 11, 15], 9)).to.eql([0, 1]);
+        });
+
+        it('finds [1, 2] for twoSum([2, 7, 11, 15], 18)', function () {
+            expect(Practice.twoSum([2, 7, 11, 15], 18)).to.eql([1, 2]);
+        });
+
+        it('finds [1, 3] for twoSum([6, 7, 2, 5, 8], 12)', function () {
+            expect(Practice.twoSum([6, 7, 2, 5, 8], 12)).to.eql([1, 3]);
+        });
+
+        it('finds [0, 4] for twoSum([6, 7, 2, 5, 8], 14)', function () {
+            expect(Practice.twoSum([6, 7, 2, 5, 8], 14)).to.eql([0, 4]);
+        });
+
+        it('finds [0, 1] for twoSum([6, 6], 12)', function () {
+            expect(Practice.twoSum([6, 6], 12)).to.eql([0, 1]);
+        });
+
+        it('finds null for twoSum([1, 2], 12)', function () {
+            expect(Practice.twoSum([1, 2], 12)).to.eql(null);
+        });
+
+        it('finds null for twoSum([6, 1], 12)', function () {
+            expect(Practice.twoSum([6, 1], 12)).to.eql(null);
+        });
+    });
+
+    describe('addTwoPositiveNumbersRepresentedByLinkedList', function () {
+
+        it('adds [4,3,2] and [3,2,1] to [7,5,3]', function () {
+            const n1 = 123;
+            const n2 = 234;
+            const sum = n1 + n2;
+
+            const ll1 = ListNode.createReverseLinkedListFromPositiveInteger(n1);
+            const ll2 = ListNode.createReverseLinkedListFromPositiveInteger(n2);
+
+            const actualResult = Practice.addTwoPositiveNumbersRepresentedByLinkedList(ll1, ll2);
+            const actualResultAsInt = ListNode.convertReversedLinkedListToPositiveInteger(actualResult);
+
+            expect(actualResultAsInt).to.equal(sum);
+        });
+
+        it('adds [1] and [1,2,3] to [1,2,4]', function () {
+            const n1 = 1;
+            const n2 = 123;
+            const sum = n1 + n2;
+
+            const ll1 = ListNode.createReverseLinkedListFromPositiveInteger(n1);
+            const ll2 = ListNode.createReverseLinkedListFromPositiveInteger(n2);
+
+            const actualResult = Practice.addTwoPositiveNumbersRepresentedByLinkedList(ll1, ll2);
+            const actualResultAsInt = ListNode.convertReversedLinkedListToPositiveInteger(actualResult);
+
+            expect(actualResultAsInt).to.equal(sum);
+        });
+
+        it('adds [0] and [1,2,3] to [1,2,3]', function () {
+            const n1 = 0;
+            const n2 = 123;
+            const sum = n1 + n2;
+
+            const ll1 = ListNode.createReverseLinkedListFromPositiveInteger(n1);
+            const ll2 = ListNode.createReverseLinkedListFromPositiveInteger(n2);
+
+            const actualResult = Practice.addTwoPositiveNumbersRepresentedByLinkedList(ll1, ll2);
+            const actualResultAsInt = ListNode.convertReversedLinkedListToPositiveInteger(actualResult);
+
+            expect(actualResultAsInt).to.equal(sum);
+        });
+
+        it('adds [5,6,7] and [3,7,8] to [9,4,5]', function () {
+            const n1 = 567;
+            const n2 = 378;
+            const sum = n1 + n2;
+
+            const ll1 = ListNode.createReverseLinkedListFromPositiveInteger(n1);
+            const ll2 = ListNode.createReverseLinkedListFromPositiveInteger(n2);
+
+            const actualResult = Practice.addTwoPositiveNumbersRepresentedByLinkedList(ll1, ll2);
+            const actualResultAsInt = ListNode.convertReversedLinkedListToPositiveInteger(actualResult);
+
+            expect(actualResultAsInt).to.equal(sum);
+        });
+
+        it('adds [5,6,7] and [5,7,8] to [1,1,4,5]', function () {
+            const n1 = 567;
+            const n2 = 578;
+            const sum = n1 + n2;
+
+            const ll1 = ListNode.createReverseLinkedListFromPositiveInteger(n1);
+            const ll2 = ListNode.createReverseLinkedListFromPositiveInteger(n2);
+
+            const actualResult = Practice.addTwoPositiveNumbersRepresentedByLinkedList(ll1, ll2);
+            const actualResultAsInt = ListNode.convertReversedLinkedListToPositiveInteger(actualResult);
+
+            expect(actualResultAsInt).to.equal(sum);
+        });
+
     });
 });
