@@ -358,18 +358,18 @@ class Practice {
         let carry = false;
         let firstNode;
         let currentNode;
-        let c1 = l1;
-        let c2 = l2;
-        while (c1 || c2) {
+        let currentNodeL1 = l1;
+        let currentNodeL2 = l2;
+        while (currentNodeL1 || currentNodeL2) {
             let newVal = carry ? 1 : 0;
             carry = false;
-            if (c1) {
-                newVal += c1.val;
-                c1 = c1.next;
+            if (currentNodeL1) {
+                newVal += currentNodeL1.val;
+                currentNodeL1 = currentNodeL1.next;
             }
-            if (c2) {
-                newVal += c2.val;
-                c2 = c2.next;
+            if (currentNodeL2) {
+                newVal += currentNodeL2.val;
+                currentNodeL2 = currentNodeL2.next;
             }
             if (newVal >= 10) {
                 carry = true;
