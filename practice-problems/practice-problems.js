@@ -411,6 +411,49 @@ class Practice {
         }
         return firstNode;
     }
+
+    /**
+     * Perform insertion sort on an array. O(n^2) complexity.
+     * Sort in-place. Do not utilize a temporary array. Do not return anything.
+     * @param {number[]} arr
+     */
+    static insertionSort(arr) {
+
+        // shove([0,1,2,3,4,5,6,7],2,4) = [0,1,null,2,3,5,6,7]
+        // [0,1,2,3,4,5,6,7]; i = 4
+        // [0,1,2,3,3,5,6,7]; i = 4
+        // [0,1,2,2,3,5,6,7]; i = 3
+        // [0,1,null,2,3,5,6,7]
+        const shove = function (arr, startIndex, endIndex) {
+            for (let i = endIndex; i > startIndex; i--) {
+                arr[i] = arr[i - 1];
+            }
+            arr[startIndex] = null;
+        };
+
+        for (let currentIndex = 1; currentIndex < arr.length; currentIndex++) {
+            const toInsert = arr[currentIndex];
+            for (let currentAlreadySortedIndex = 0; currentAlreadySortedIndex < currentIndex; currentAlreadySortedIndex++) {
+                if (arr[currentAlreadySortedIndex] > toInsert) {
+                    shove(arr, currentAlreadySortedIndex, currentIndex);
+                    arr[currentAlreadySortedIndex] = toInsert;
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Given two sorted arrays, find the median of them.
+     * Do this in O(log(m+n)) or faster.
+     * example: median([1,2,4], [3,5,6]) -> 3
+     * @param {number[]} arr1
+     * @param {number[]} arr2
+     * @return {number}
+     */
+    static medianOfTwoSortedArrays(arr1, arr2) {
+
+    }
 }
 
 module.exports = Practice;

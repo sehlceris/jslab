@@ -464,4 +464,72 @@ describe('Practice', function () {
         });
 
     });
+
+    describe('insertion sort', function () {
+
+        it('sorts []', function () {
+            const originalArray = [];
+            const expectedResult = [...originalArray].sort();
+            const result = [...originalArray];
+            Practice.insertionSort(result);
+            expect(result).to.eql(expectedResult);
+        });
+
+        it('sorts [1]', function () {
+            const originalArray = [1];
+            const expectedResult = [...originalArray].sort();
+            const result = [...originalArray];
+            Practice.insertionSort(result);
+            expect(result).to.eql(expectedResult);
+        });
+
+        it('sorts [2,1]', function () {
+            const originalArray = [2, 1];
+            const expectedResult = [...originalArray].sort();
+            const result = [...originalArray];
+            Practice.insertionSort(result);
+            expect(result).to.eql(expectedResult);
+        });
+
+        it('sorts [1,2]', function () {
+            const originalArray = [1, 2];
+            const expectedResult = [...originalArray].sort();
+            const result = [...originalArray];
+            Practice.insertionSort(result);
+            expect(result).to.eql(expectedResult);
+        });
+
+        it('sorts [3,2,1]', function () {
+            const originalArray = [3, 2, 1];
+            const expectedResult = [...originalArray].sort();
+            const result = [...originalArray];
+            Practice.insertionSort(result);
+            expect(result).to.eql(expectedResult);
+        });
+
+        it('sorts [1,2,3]', function () {
+            const originalArray = [1, 2, 3];
+            const expectedResult = [...originalArray].sort();
+            const result = [...originalArray];
+            Practice.insertionSort(result);
+            expect(result).to.eql(expectedResult);
+        });
+
+        it('sorts [5,3,2,6,8]', function () {
+            const originalArray = [5, 3, 2, 6, 8];
+            const expectedResult = [...originalArray].sort();
+            const result = [...originalArray];
+            Practice.insertionSort(result);
+            expect(result).to.eql(expectedResult);
+        });
+
+        it('sorts [2,1,0,0,2,1]', function () {
+            const originalArray = [2, 1, 0, 0, 2, 1];
+            const expectedResult = [...originalArray].sort();
+            const result = [...originalArray];
+            Practice.insertionSort(result);
+            expect(result).to.eql(expectedResult);
+        });
+
+    });
 });
