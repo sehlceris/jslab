@@ -1,11 +1,12 @@
 const expect = require("chai").expect;
-const {ListNode} = require('./helpers');
+const {ListNode, BinaryTree} = require('./helpers');
 
 describe('Helpers', function () {
     describe('ListNode', function () {
 
         it('should be able to be constructed', function () {
             const node = new ListNode(1);
+            expect(node).to.exist;
         });
 
         it('should return its val property', function () {
@@ -30,6 +31,18 @@ describe('Helpers', function () {
             const node2 = new ListNode(2);
             node1.next = node2;
             expect(node1.next).to.equal(node2);
+        });
+
+        it('should be constructed with a prev property of null', function () {
+            const node = new ListNode(1);
+            expect(node.prev).to.equal(null);
+        });
+
+        it('should allow assigning of its prev property', function () {
+            const node1 = new ListNode(1);
+            const node2 = new ListNode(2);
+            node1.prev = node2;
+            expect(node1.prev).to.equal(node2);
         });
 
         it('should allow joining of elements in the list into a string', function () {
@@ -73,5 +86,35 @@ describe('Helpers', function () {
                 expect(ListNode.convertReversedLinkedListToPositiveInteger(firstNode)).to.equal(n);
             });
         });
+    });
+
+    describe('BinaryTree', function () {
+
+        it('should be able to be constructed', function () {
+            const tree = new BinaryTree(1);
+            expect(tree).to.exist;
+        });
+
+        it('should allow reading of its value', function () {
+            const tree = new BinaryTree(1);
+            expect(tree.val).to.equal(1);
+        });
+
+        it('should be able to set and get its left tree', function () {
+            const tree = new BinaryTree(1);
+            const left = new BinaryTree(0);
+            expect(tree.left).to.be.null;
+            tree.left = left;
+            expect(tree.left).to.equal(left);
+        });
+
+        it('should be able to set and get its right tree', function () {
+            const tree = new BinaryTree(1);
+            const right = new BinaryTree(2);
+            expect(tree.right).to.be.null;
+            tree.right = right;
+            expect(tree.right).to.equal(right);
+        });
+
     });
 });

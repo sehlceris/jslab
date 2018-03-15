@@ -2,6 +2,7 @@ class ListNode {
     constructor(val) {
         this.val = val;
         this._next = null;
+        this._prev = null;
     }
 
     get next() {
@@ -10,6 +11,14 @@ class ListNode {
 
     set next(next) {
         this._next = next;
+    }
+
+    get prev() {
+        return this._prev;
+    }
+
+    set prev(prev) {
+        this._prev = prev;
     }
 
     join(separator = '') {
@@ -51,6 +60,31 @@ class ListNode {
     }
 }
 
+class BinaryTree {
+    constructor(val) {
+        this.val = val;
+        this._left = null;
+        this._right = null;
+    }
+
+    get left() {
+        return this._left;
+    }
+
+    set left(tree) {
+        this._left = tree;
+    }
+
+    get right() {
+        return this._right;
+    }
+
+    set right(tree) {
+        this._right = tree;
+    }
+}
+
 module.exports = {
-    ListNode
+    ListNode,
+    BinaryTree
 };

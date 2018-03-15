@@ -1,4 +1,4 @@
-const {ListNode} = require('./helpers');
+const {ListNode, BinaryTree} = require('./helpers');
 
 class Practice {
 

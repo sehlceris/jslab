@@ -1,6 +1,6 @@
 const expect = require("chai").expect;
 const Practice = require('./practice-problems');
-const {ListNode} = require('./helpers');
+const {ListNode, BinaryTree} = require('./helpers');
 
 describe('Practice', function () {
     describe('getIntsNotInArrayOfRange', function () {
