@@ -344,11 +344,26 @@ class Practice {
      * @return {number[]}
      */
     static twoSum(nums, target) {
+
+        // commented out is a naive, O(n^2) solution
+        // for (let i = 0; i < nums.length; i++) {
+        //     for (let j = i + 1; j < nums.length; j++) {
+        //         if (nums[j] + nums[i] === target) {
+        //             return [i, j];
+        //         }
+        //     }
+        // }
+        // return null;
+
+        // O(n) solution: use a hashmap
+        const complementIndexes = new Map();
         for (let i = 0; i < nums.length; i++) {
-            for (let j = i + 1; j < nums.length; j++) {
-                if (nums[j] + nums[i] === target) {
-                    return [i, j];
-                }
+            const complement = target - nums[i];
+            if (typeof(complementIndexes.get(complement)) === 'number') {
+                return [complementIndexes.get(complement), i];
+            }
+            else {
+                complementIndexes.set(nums[i], i);
             }
         }
         return null;
@@ -452,6 +467,16 @@ class Practice {
      * @return {number}
      */
     static medianOfTwoSortedArrays(arr1, arr2) {
+        // here's a naive O(n) implementation (due to the merge)
+        // const merged = this.mergeSortedArrays(arr1, arr2);
+        // const middleIndex = Math.floor(merged.length / 2);
+        // if (merged.length % 2 == 0) {
+        //     return (merged[middleIndex - 1] + merged[middleIndex]) / 2;
+        // }
+        // else {
+        //     return merged[middleIndex];
+        // }
+
 
     }
 }
