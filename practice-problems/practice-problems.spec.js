@@ -1,4 +1,5 @@
 const expect = require("chai").expect;
+const sinon = require("sinon");
 const Practice = require('./practice-problems');
 const {ListNode, BinaryTree} = require('./helpers');
 
@@ -567,6 +568,80 @@ describe('Practice', function () {
         //     const actual = Practice.medianOfTwoSortedArrays(arr1, arr2);
         //     expect(actual).to.equal(expected);
         // });
+
+    });
+
+    describe('getEventEmitter', function () {
+
+        it('can be instantiated', function () {
+            const EventEmitter = Practice.getEventEmitter();
+            const ee = new EventEmitter();
+        });
+
+        it('can add a handler function', function () {
+            const EventEmitter = Practice.getEventEmitter();
+            const ee = new EventEmitter();
+            const spy1 = sinon.spy();
+            ee.on('my-evt', spy1);
+        });
+
+        it('can trigger a handler function', function () {
+            const EventEmitter = Practice.getEventEmitter();
+            const ee = new EventEmitter();
+            const spy1 = sinon.spy();
+            ee.on('my-evt', spy1);
+            expect(spy1.callCount).to.equal(0);
+            ee.trigger('my-evt');
+            expect(spy1.callCount).to.equal(1);
+        });
+
+        it('can trigger a handler function with event data', function () {
+            const EventEmitter = Practice.getEventEmitter();
+            const ee = new EventEmitter();
+            const spy1 = sinon.spy();
+            ee.on('my-evt', spy1);
+            ee.trigger('my-evt', 999);
+            expect(spy1.calledWith(999)).to.be.true;
+        });
+
+        it('can trigger a handler function more than once', function () {
+            const EventEmitter = Practice.getEventEmitter();
+            const ee = new EventEmitter();
+            const spy1 = sinon.spy();
+            ee.on('my-evt', spy1);
+            expect(spy1.callCount).to.equal(0);
+            ee.trigger('my-evt');
+            ee.trigger('my-evt');
+            expect(spy1.callCount).to.equal(2);
+        });
+
+        it('can trigger multiple handler functions', function () {
+            const EventEmitter = Practice.getEventEmitter();
+            const ee = new EventEmitter();
+            const spy1 = sinon.spy();
+            const spy2 = sinon.spy();
+            ee.on('my-evt', spy1);
+            ee.on('my-evt', spy2);
+            expect(spy1.callCount).to.equal(0);
+            expect(spy2.callCount).to.equal(0);
+            ee.trigger('my-evt');
+            expect(spy1.callCount).to.equal(1);
+            expect(spy2.callCount).to.equal(1);
+        });
+
+        it('can trigger multiple isolated events', function () {
+            const EventEmitter = Practice.getEventEmitter();
+            const ee = new EventEmitter();
+            const spy1 = sinon.spy();
+            const spy2 = sinon.spy();
+            ee.on('my-evt', spy1);
+            ee.on('other-evt', spy2);
+            expect(spy1.callCount).to.equal(0);
+            expect(spy2.callCount).to.equal(0);
+            ee.trigger('my-evt');
+            expect(spy1.callCount).to.equal(1);
+            expect(spy2.callCount).to.equal(0);
+        });
 
     });
 });
