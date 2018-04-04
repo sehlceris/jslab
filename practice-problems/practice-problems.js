@@ -419,11 +419,13 @@ class Practice {
      */
     static insertionSort(arr) {
 
+        // shove will move values of an array over to the right (towards the end of the array).
+        // this will cause one value of the array (the value at endIndex) to be overwritten, and make room (null) at startIndex to insert one value into the array.
         // shove([0,1,2,3,4,5,6,7],2,4) = [0,1,null,2,3,5,6,7]
-        // [0,1,2,3,4,5,6,7]; i = 4
-        // [0,1,2,3,3,5,6,7]; i = 4
-        // [0,1,2,2,3,5,6,7]; i = 3
-        // [0,1,null,2,3,5,6,7]
+        // [0,1,2,3,4,5,6,7]; i = 4 // before anything gets done
+        // [0,1,2,3,3,5,6,7]; i = 4 // index 4 gets overwritten with 3
+        // [0,1,2,2,3,5,6,7]; i = 3 // index 3 gets overwritten with 2
+        // [0,1,null,2,3,5,6,7] // index 2 is nulled to make space
         const shove = function (arr, startIndex, endIndex) {
             for (let i = endIndex; i > startIndex; i--) {
                 arr[i] = arr[i - 1];
@@ -431,6 +433,10 @@ class Practice {
             arr[startIndex] = null;
         };
 
+        // insertion sort: go through all items of the index one by one.
+        // if item needs to be sorted, shove items of the array over to make room
+        // shove all items between [index to insert the item into] and [index the item we are sorting is at]
+        // once shoved, put the item to be sorted in the correct position in the array
         for (let currentIndex = 1; currentIndex < arr.length; currentIndex++) {
             const toInsert = arr[currentIndex];
             for (let currentAlreadySortedIndex = 0; currentAlreadySortedIndex < currentIndex; currentAlreadySortedIndex++) {
@@ -441,6 +447,48 @@ class Practice {
                 }
             }
         }
+    }
+
+    /**
+     * Return an EventEmitter function that has the following interface:
+     *
+     * const EventEmitter = getEventEmitter();
+     * const ee = new EventEmitter()
+     * ee.on('my-arbitrary-event', function(evt) { })
+     * ee.trigger('my-arbitrary-event', { arbitraryData: true })
+     *
+     * requirements:
+     *  - Use prototype
+     *  - Return a function that can be instantiated using the 'new' keyword
+     *  - triggered events may contain arbitrary data
+     *  - triggering a nonexistent event will not throw an exception
+     *  - events may have multiple handler functions - all of them need to be executed
+     *  - you may assume that no handler function throws an exception
+     *  - you may assume that all your inputs are sanitized and correct
+     *  - you may assume there is no need to remove a handler
+     *  - you may assume all event names are strings
+     */
+    static getEventEmitter() {
+        const EventEmitter = function () {
+            this.eventMap = {};
+        };
+
+        EventEmitter.prototype.on = function (evtName, handlerFn) {
+            if (!this.eventMap[evtName]) {
+                this.eventMap[evtName] = [];
+            }
+            this.eventMap[evtName].push(handlerFn);
+        };
+
+        EventEmitter.prototype.trigger = function (evtName, evt) {
+            if (this.eventMap[evtName]) {
+                this.eventMap[evtName].forEach((handlerFn) => {
+                    handlerFn(evt);
+                });
+            }
+        };
+
+        return EventEmitter;
     }
 
     /**
