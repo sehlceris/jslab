@@ -534,43 +534,6 @@ describe('Practice', function () {
 
     });
 
-    describe('medianOfTwoSortedArrays', function () {
-
-        // it('finds the median of [1,2,4] and [3,5,6] to be 3', function () {
-        //     const arr1 = [1, 2, 4];
-        //     const arr2 = [3, 5, 6];
-        //     const expected = 3.5;
-        //     const actual = Practice.medianOfTwoSortedArrays(arr1, arr2);
-        //     expect(actual).to.equal(expected);
-        // });
-        //
-        //
-        // it('finds the median of [1,2] and [3,5,6] to be 3', function () {
-        //     const arr1 = [1, 2];
-        //     const arr2 = [3, 5, 6];
-        //     const expected = 3;
-        //     const actual = Practice.medianOfTwoSortedArrays(arr1, arr2);
-        //     expect(actual).to.equal(expected);
-        // });
-        //
-        // it('finds the median of [1,2,7,9,10,12] and [3,5,6,8,13] to be 7', function () {
-        //     const arr1 = [1, 2, 7, 9, 10, 12];
-        //     const arr2 = [3, 5, 6, 8, 13];
-        //     const expected = 7;
-        //     const actual = Practice.medianOfTwoSortedArrays(arr1, arr2);
-        //     expect(actual).to.equal(expected);
-        // });
-        //
-        // it('finds the median of [5,5,5] and [5,5,5] to be 5', function () {
-        //     const arr1 = [5, 5, 5];
-        //     const arr2 = [5, 5, 5];
-        //     const expected = 5;
-        //     const actual = Practice.medianOfTwoSortedArrays(arr1, arr2);
-        //     expect(actual).to.equal(expected);
-        // });
-
-    });
-
     describe('getEventEmitter', function () {
 
         it('can be instantiated', function () {

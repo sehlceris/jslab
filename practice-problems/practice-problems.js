@@ -505,28 +505,6 @@ class Practice {
 
         return EventEmitter;
     }
-
-    /**
-     * Given two sorted arrays, find the median of them.
-     * Do this in O(log(m+n)) or faster.
-     * example: median([1,2,4], [3,5,6]) -> 3
-     * @param {number[]} arr1
-     * @param {number[]} arr2
-     * @return {number}
-     */
-    static medianOfTwoSortedArrays(arr1, arr2) {
-        // here's a naive O(n) implementation (due to the merge)
-        // const merged = this.mergeSortedArrays(arr1, arr2);
-        // const middleIndex = Math.floor(merged.length / 2);
-        // if (merged.length % 2 == 0) {
-        //     return (merged[middleIndex - 1] + merged[middleIndex]) / 2;
-        // }
-        // else {
-        //     return merged[middleIndex];
-        // }
-
-
-    }
 }
 
 module.exports = Practice;
