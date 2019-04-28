@@ -1,0 +1,2 @@
+// node -e "console.log('\n'+require('crypto').randomBytes(256).toString('base64').replace(/[^\w]/g, '')+'\n');"
+console.log('\n'+require('crypto').randomBytes(256).toString('base64').replace(/[^\w]/g, '')+'\n');
