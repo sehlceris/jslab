@@ -58,13 +58,17 @@ const go = async function() {
 
     let filesToDelete;
 
-    // delete the files 10 times, because for some reason, sometimes deletes don't go through
-    for (let i = 0; i < 10; i++) {
-        console.log('pass', i);
+    // delete the files multiple times, because for some reason, sometimes deletes don't go through
+    let numberOfFilesDeletedThisPass = 0;
+    let currentPass = 1;
+    do {
         filesToDelete = getFilesToDelete(filesToSaveSet);
+        numberOfFilesDeletedThisPass = filesToDelete.length;
         await deleteFiles(filesToDelete, 10, 100);
+        console.log(`pass ${currentPass} attempted to delete ${numberOfFilesDeletedThisPass} files`);
+        currentPass++;
     }
-
+    while(numberOfFilesDeletedThisPass > 0);
     console.log('done');
 };
 
