@@ -1,7 +1,7 @@
-// deletes all ARW if there is not a corresponding JPG
+// deletes all raw files if there is not a corresponding JPG
 
-const arwRegex = /(.*?)\.(arw)$/ig
-const jpgRegex = /(.*?)\.(jpg|jpeg)$/ig
+const rawRegex = /^(.*)\.(arw|raf|raw)$/i;
+const jpgRegex = /^(.*)\.(jpg|jpeg)$/i;
 
 const fs = require('fs');
 
@@ -18,22 +18,21 @@ const getFilenameWithoutJpgExtension = (filename) => {
     return null;
 }
 
-const deleteFiles = async (filesToDelete, delay = 50, postDelay = 1000) => {
-    for(let i = 0; i < filesToDelete.length; i++) {
+const deleteFiles = async (filesToDelete) => {
+    for (let i = 0; i < filesToDelete.length; i++) {
         const filename = filesToDelete[i];
-        console.log('delete ', filesToDelete[i]);
+        console.log('delete ', filename);
         try {
-            await fs.promises.unlink(filename);
-        } catch(e) {}
-        await delayPromise(delay);
+            fs.unlinkSync(filename);
+        } catch (e) {
+        }
     }
-    await delayPromise(postDelay);
 };
 
 const getFilesToDelete = ((filesToSaveSet) => {
     const filesToDelete = fs.readdirSync('.')
         .map((filename) => {
-            const match = arwRegex.exec(filename);
+            const match = rawRegex.exec(filename);
             if (match && match[1] && !filesToSaveSet.has(match[1])) {
                 return filename;
             }
@@ -41,9 +40,9 @@ const getFilesToDelete = ((filesToSaveSet) => {
         })
         .filter((filename) => !!filename);
     return filesToDelete;
-})
+});
 
-const go = async function() {
+const go = async function () {
 
     const filesToSave = fs.readdirSync('.')
         .map((filename) => {
@@ -58,17 +57,9 @@ const go = async function() {
 
     let filesToDelete;
 
-    // delete the files multiple times, because for some reason, sometimes deletes don't go through
-    let numberOfFilesDeletedThisPass = 0;
-    let currentPass = 1;
-    do {
-        filesToDelete = getFilesToDelete(filesToSaveSet);
-        numberOfFilesDeletedThisPass = filesToDelete.length;
-        await deleteFiles(filesToDelete, 10, 100);
-        console.log(`pass ${currentPass} attempted to delete ${numberOfFilesDeletedThisPass} files`);
-        currentPass++;
-    }
-    while(numberOfFilesDeletedThisPass > 0);
+    filesToDelete = getFilesToDelete(filesToSaveSet);
+    await deleteFiles(filesToDelete, 10, 100);
+    console.log(`deleted ${filesToDelete.length} files`);
     console.log('done');
 };
 
