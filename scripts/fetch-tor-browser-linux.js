@@ -11,35 +11,35 @@ const pgp = require('openpgp');
 const rimraf = require('rimraf');
 const {JSDOM} = require('jsdom');
 
-const downloadPage = 'https://www.torproject.org/download/';
-const downloadDir = path.join('.', 'tmp');
-const publicKeyFilePath = path.join('.', 'res', 'tor-browser-developers.asc');
-const browserDestinationFolderName = 'tor-browser_en-US';
-const destinationDir = path.join(os.homedir(), 'apps');
+const DOWNLOAD_PAGE = 'https://www.torproject.org/download/';
+const DOWNLOAD_DIRECTORY = path.join('.', 'tmp');
+const PUBLIC_KEY_FILE_PATH = path.join('.', 'res', 'tor-browser-developers.asc');
+const BROWSER_DESTINATION_DIRECTORY_NAME = 'tor-browser_en-US';
+const DESTINATION_DIRECTORY = path.join(os.homedir(), 'apps');
 
 async function main() {
   console.log(`\n\n**********\ndownloading tor browser bundle\n**********\n`);
 
-  const fetchDownloadPagePromise = fetch(downloadPage).then(response => response.text());
+  const fetchDownloadPagePromise = fetch(DOWNLOAD_PAGE).then(response => response.text());
   const downloadPageText = await fetchDownloadPagePromise;
   const document = new JSDOM(downloadPageText).window.document;
 
   const browserDownloadLink = getDownloadLink(document);
   const signatureDownloadLink = getSignatureLink(document);
 
-  if (!fs.existsSync(downloadDir)) {
-    fs.mkdirSync(downloadDir);
+  if (!fs.existsSync(DOWNLOAD_DIRECTORY)) {
+    fs.mkdirSync(DOWNLOAD_DIRECTORY);
   }
 
-  const browserDownloadPath = getWritePath(downloadDir, browserDownloadLink);
-  const signatureDownloadPath = getWritePath(downloadDir, signatureDownloadLink);
+  const browserDownloadPath = getWritePath(DOWNLOAD_DIRECTORY, browserDownloadLink);
+  const signatureDownloadPath = getWritePath(DOWNLOAD_DIRECTORY, signatureDownloadLink);
 
   await download(browserDownloadPath, browserDownloadLink);
   await download(signatureDownloadPath, signatureDownloadLink);
 
-  await verifySignature(browserDownloadPath, signatureDownloadPath, publicKeyFilePath);
+  await verifySignature(browserDownloadPath, signatureDownloadPath, PUBLIC_KEY_FILE_PATH);
 
-  await extractToDestination(browserDownloadPath, destinationDir, browserDestinationFolderName);
+  await extractToDestination(browserDownloadPath, DESTINATION_DIRECTORY, BROWSER_DESTINATION_DIRECTORY_NAME);
 
   console.log(`\n\n**********\nfinished!\n**********\n`);
 }
@@ -124,12 +124,12 @@ async function verifySignature(browserDownloadPath, signatureDownloadPath, publi
 
 }
 
-async function extractToDestination(browserDownloadPath, destinationDir, browserDestinationFolderName) {
+async function extractToDestination(browserDownloadPath, destinationDir, browserDestinationDirectoryName) {
   if (!fs.existsSync(destinationDir)) {
     fs.mkdirSync(destinationDir);
   }
 
-  const existingDirToDelete = path.join(destinationDir, browserDestinationFolderName);
+  const existingDirToDelete = path.join(destinationDir, browserDestinationDirectoryName);
   if (fs.existsSync(existingDirToDelete)) {
     console.log(`removing existing directory ${existingDirToDelete}`);
     rimraf.sync(existingDirToDelete);
