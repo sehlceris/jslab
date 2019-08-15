@@ -87,7 +87,7 @@ function getWritePath(dir, url) {
 }
 
 async function download(writePath, url, overwrite = true) {
-  console.log(`downloading ${url} to ${writePath}`);
+  console.log(`downloading\n\turl ${url}\n\tto ${writePath}`);
 
   if (fs.existsSync(writePath)) {
     if (overwrite) {
