@@ -20,31 +20,38 @@ const DESTINATION_DIRECTORY = path.join(os.homedir(), 'apps');
 async function main() {
   console.log(`\n\n**********\ndownloading tor browser bundle\n**********\n`);
 
+  // fetch the download page and parse it into a DOM
   const fetchDownloadPagePromise = fetch(DOWNLOAD_PAGE).then(response => response.text());
   const downloadPageText = await fetchDownloadPagePromise;
   const document = new JSDOM(downloadPageText).window.document;
 
-  const browserDownloadLink = getDownloadLink(document);
+  // grab the download links for the browser bundle and its signature
+  const browserDownloadLink = getBundleLink(document);
   const signatureDownloadLink = getSignatureLink(document);
 
+  // create our download directory
   if (!fs.existsSync(DOWNLOAD_DIRECTORY)) {
     fs.mkdirSync(DOWNLOAD_DIRECTORY);
   }
 
+  // figure out which path we want to write to
   const browserDownloadPath = getWritePath(DOWNLOAD_DIRECTORY, browserDownloadLink);
   const signatureDownloadPath = getWritePath(DOWNLOAD_DIRECTORY, signatureDownloadLink);
 
+  // download the URLs to the specified paths
   await download(browserDownloadPath, browserDownloadLink);
   await download(signatureDownloadPath, signatureDownloadLink);
 
+  // verify the signature of the downloaded file against the public key
   await verifySignature(browserDownloadPath, signatureDownloadPath, PUBLIC_KEY_FILE_PATH);
 
+  // decompress and extract the browser bundle to the destination directory
   await extractToDestination(browserDownloadPath, DESTINATION_DIRECTORY, BROWSER_DESTINATION_DIRECTORY_NAME);
 
   console.log(`\n\n**********\nfinished!\n**********\n`);
 }
 
-function getDownloadLink(ele) {
+function getBundleLink(ele) {
   const linkTags = [...ele.querySelectorAll('a.downloadLink')];
   const hrefs = linkTags.map((link) => link.getAttribute('href'));
   const filtered = hrefs.filter((href) => {
