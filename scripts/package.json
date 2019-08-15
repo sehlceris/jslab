@@ -1,0 +1,19 @@
+{
+  "name": "random-scripts",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "extract-zip": "^1.6.7",
+    "jsdom": "^15.1.1",
+    "lzma-native": "^4.0.5",
+    "node-fetch": "^2.6.0",
+    "openpgp": "^4.6.0",
+    "rimraf": "^3.0.0",
+    "tar": "^4.4.10"
+  }
+}
