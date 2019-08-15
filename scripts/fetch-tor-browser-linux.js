@@ -100,7 +100,28 @@ async function download(writePath, url, overwrite = true) {
 async function verifySignature(browserDownloadPath, signatureDownloadPath, publicKeyFilePath) {
   console.log(`verifying signature\n\tof file ${browserDownloadPath}\n\twith signature ${signatureDownloadPath}\n\tagainst public key ${publicKeyFilePath}`);
 
-  console.log(`TODO`);
+  const armoredText = fs.readFileSync(publicKeyFilePath, 'utf8');
+  const publicKeysResult = await pgp.key.readArmored(armoredText);
+  const publicKeys = publicKeysResult.keys;
+
+  const signatureText = fs.readFileSync(signatureDownloadPath, 'utf8');
+  const signature = await pgp.signature.readArmored(signatureText);
+
+  const browserBundleFile = fs.readFileSync(browserDownloadPath);
+  const message = await pgp.message.fromBinary(browserBundleFile);
+
+  const verificationResult = await pgp.verify({
+    publicKeys,
+    signature,
+    message
+  });
+
+  const isValid = verificationResult.signatures.every((signature) => signature.valid);
+  if (!isValid) {
+    throw new Error(`signature is not valid`);
+  }
+  console.log(`signature is valid`);
+
 }
 
 async function extractToDestination(browserDownloadPath, destinationDir, browserDestinationFolderName) {
