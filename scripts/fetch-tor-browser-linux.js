@@ -11,7 +11,8 @@ const pgp = require('openpgp');
 const rimraf = require('rimraf');
 const {JSDOM} = require('jsdom');
 
-const DOWNLOAD_PAGE = 'https://www.torproject.org/download/';
+const BASE_URL = 'https://www.torproject.org';
+const DOWNLOAD_PAGE = BASE_URL + '/download/';
 const DOWNLOAD_DIRECTORY = path.join('.', 'tmp');
 const PUBLIC_KEY_FILE_PATH = path.join('.', 'res', 'tor-browser-developers.asc');
 const BROWSER_DESTINATION_DIRECTORY_NAME = 'tor-browser_en-US';
@@ -26,8 +27,15 @@ async function main() {
   const document = new JSDOM(downloadPageText).window.document;
 
   // grab the download links for the browser bundle and its signature
-  const browserDownloadLink = getBundleLink(document);
-  const signatureDownloadLink = getSignatureLink(document);
+  let browserDownloadLink = getBundleLink(document);
+  let signatureDownloadLink = getSignatureLink(document);
+
+  if (!browserDownloadLink.startsWith(BASE_URL)) {
+    browserDownloadLink = BASE_URL + browserDownloadLink;
+  }
+  if (!signatureDownloadLink.startsWith(BASE_URL)) {
+    signatureDownloadLink = BASE_URL + signatureDownloadLink;
+  }
 
   // create our download directory
   if (!fs.existsSync(DOWNLOAD_DIRECTORY)) {
