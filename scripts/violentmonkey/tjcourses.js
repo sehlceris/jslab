@@ -8,6 +8,8 @@
 // @description 9/16/2020, 8:19:26 AM
 // ==/UserScript==
 
+// https://github.com/sehlceris/wistia-downloader
+
 function getWistiaVideoId() {
   const scriptTagList = document.head.querySelectorAll("script[type='application/ld+json']");
   const lastScriptTag = scriptTagList[scriptTagList.length - 1];
