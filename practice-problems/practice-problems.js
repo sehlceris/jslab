@@ -3,6 +3,59 @@ const {ListNode, BinaryTree} = require('./helpers');
 class Practice {
 
   /**
+   An implementation of Dijkstra's shortest path algorithm.
+   Uses the graph data structure found here: https://www.npmjs.com/package/graph-data-structure
+
+   Given the following graph of nodes represented visually as:
+
+   [A]--(6)--[B]--(5)-[C]
+   |       / |       /
+   |      /  |      /
+   (1)   (2) (2)   (5)
+   |   /     |   /
+   |  /      |  /
+   [D]-(1)---[E]
+
+   the shortest path to all nodes from 'A' is as follows:
+
+   | vertex | shortest distance from 'A' | previous node |
+   |--------|----------------------------|---------------|
+   | A      | 0                          | null          |
+   | B      | 3                          | D             |
+   | C      | 7                          | E             |
+   | D      | 1                          | A             |
+   | E      | 2                          | D             |
+
+   return the data in an object structured as follows:
+   {
+    "A": {
+      distance: 0,
+      previousNode: null
+    },
+    "B": {
+      distance: 3,
+      previousNode: "D"
+    },
+    "C": {
+      distance: 7,
+      previousNode: "E"
+    },
+    "D": {
+      distance: 1,
+      previousNode: "A"
+    },
+    "E": {
+      distance: 2,
+      previousNode: "D"
+    }
+   }
+
+   */
+  static dijkstraShortestPath(graph) {
+    return {};
+  }
+
+  /**
    * Given an array of ints of size n with a domain from 1 to n where duplicates are allowed...
    * Write a method that returns all the eligible values that are not in the array.
    * example: getIntsNotInArrayOfRange([2,3,4,6,9], 10) -> [1,5,7,8,10]

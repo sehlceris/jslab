@@ -1,9 +1,62 @@
-const expect = require("chai").expect;
-const sinon = require("sinon");
+const expect = require('chai').expect;
+const sinon = require('sinon');
 const Practice = require('./practice-problems');
 const {ListNode, BinaryTree} = require('./helpers');
+const Graph = require('graph-data-structure');
 
 describe('Practice', function () {
+  describe('dijkstraShortestPath', function () {
+    it('should find the shortest path in a graph', function () {
+
+      /*
+          in the following graph is represented visually as:
+
+          [a]--(6)--[b]--(5)-[c]
+           |       / |       /
+           |      /  |      /
+          (1)   (2) (2)   (5)
+           |   /     |   /
+           |  /      |  /
+          [d]-(1)---[e]
+
+          the shortest path to all nodes from 'A' is as follows:
+
+          | vertex | shortest distance from 'A' | previous node |
+          |--------|----------------------------|---------------|
+          | A      | 0                          | null          |
+          | B      | 3                          | D             |
+          | C      | 7                          | E             |
+          | D      | 1                          | A             |
+          | E      | 2                          | D             |
+       */
+
+      const graph = new Graph();
+
+      graph
+        .addNode('A')
+        .addNode('B')
+        .addNode('C')
+        .addNode('D')
+        .addNode('E')
+        .addEdge('A', 'B', 6)
+        .addEdge('A', 'D', 1)
+        .addEdge('B', 'C', 5)
+        .addEdge('B', 'D', 2)
+        .addEdge('C', 'E', 5)
+        .addEdge('D', 'E', 1);
+
+      const shortestPathResults = Practice.dijkstraShortestPath(graph, 'A');
+      expect(shortestPathResults['B'].distance).to.eql(3);
+      expect(shortestPathResults['B'].previousNode).to.eql('D');
+      expect(shortestPathResults['C'].distance).to.eql(7);
+      expect(shortestPathResults['C'].previousNode).to.eql('E');
+      expect(shortestPathResults['D'].distance).to.eql(1);
+      expect(shortestPathResults['D'].previousNode).to.eql('A');
+      expect(shortestPathResults['E'].distance).to.eql(2);
+      expect(shortestPathResults['E'].previousNode).to.eql('D');
+    });
+  });
+
   describe('getIntsNotInArrayOfRange', function () {
     it('should return an array of ints that are missing from an array', function () {
       const max = 10;
