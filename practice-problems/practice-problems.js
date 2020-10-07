@@ -57,7 +57,7 @@ class Practice {
   */
   static async dijkstraShortestPath(graph, startingNodeName) {
 
-    let DEBUG = true;
+    let DEBUG_MODE = false;
 
     const allNodeNamesArr = graph.nodes();
     const visitedNodesSet = new Set();
@@ -108,7 +108,7 @@ class Practice {
     let currentNodeName = startingNodeName;
     let currentNodeDistanceFromStartingNode = 0;
     while (visitedNodesSet.size < allNodeNamesArr.length) {
-      if (DEBUG) {
+      if (DEBUG_MODE) {
         await delayPromise(100); // uncomment this if you are debugging the algorithm and need to wait in between steps
         console.log(`currentNodeName: ${currentNodeName} | currentNodeDistanceFromStartingNode: ${currentNodeDistanceFromStartingNode}`);
       }
@@ -122,7 +122,7 @@ class Practice {
         }
         const adjacentNodeDistanceFromStart = adjacentNode.distance + currentNodeDistanceFromStartingNode;
         const isPathShorter = adjacentNodeDistanceFromStart < distanceMap[adjacentNode.nodeName].distance;
-        if (DEBUG) {
+        if (DEBUG_MODE) {
           console.log(`  adjacentNode.nodeName: ${adjacentNode.nodeName} | adjacentNodeDistanceFromStart: ${adjacentNodeDistanceFromStart} | isPathShorter: ${isPathShorter} compared to current ${adjacentNode.nodeName}/${distanceMap[adjacentNode.nodeName].distance}`);
         }
         if (isPathShorter) {
@@ -137,7 +137,7 @@ class Practice {
       let nextNode = adjacentNodes.find(it => !(visitedNodesSet.has(it.nodeName)));
       if (!nextNode && visitedNodesSet.size < allNodeNamesArr.length) {
         nextNode = nodeStack.pop();
-        if (DEBUG) {
+        if (DEBUG_MODE) {
           console.log(`  no adjacent nodes, going back a step in the node stack to: ${nextNode.nodeName}`);
         }
       }
@@ -150,13 +150,13 @@ class Practice {
       if (nextNode) {
         currentNodeName = nextNode.nodeName;
         currentNodeDistanceFromStartingNode = distanceMap[nextNode.nodeName].distance;
-        if (DEBUG) {
+        if (DEBUG_MODE) {
           console.log(`  advancing to next node: ${nextNode.nodeName}`);
         }
       }
     }
 
-    if (DEBUG) {
+    if (DEBUG_MODE) {
       console.log(`done: ${JSON.stringify(distanceMap, undefined, 2)}`);
     }
 
