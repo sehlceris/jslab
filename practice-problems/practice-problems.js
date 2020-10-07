@@ -1,4 +1,4 @@
-const {ListNode, BinaryTree} = require('./helpers');
+const {ListNode, BinaryTree, delayPromise} = require('./helpers');
 
 class Practice {
 
@@ -51,8 +51,100 @@ class Practice {
    }
 
    */
-  static dijkstraShortestPath(graph) {
-    return {};
+  static async dijkstraShortestPath(graph, startingNodeName) {
+    const allNodeNamesArr = graph.nodes();
+    const visitedNodesSet = new Set();
+
+    const distanceMap = {
+      [startingNodeName]: {
+        distance: 0,
+        previousNode: null
+      }
+      /*
+      this is the intended structure for future properties of this object
+      "B" {
+        distance: 3,
+        previousNode: "D"
+      }
+       */
+    };
+
+    const getNodeNeighborsAndWeights = (currentNodeName) => {
+      const adjacentNodeNames = graph.adjacent(currentNodeName);
+      const adjacentNodes = adjacentNodeNames.map((adjacentNodeName) => {
+        return {
+          nodeName: adjacentNodeName,
+          distance: graph.getEdgeWeight(currentNodeName, adjacentNodeName),
+        };
+      });
+
+      // sort nodes so that the one with the lowest distance is on top
+      adjacentNodes.sort((a, b) => a.distance - b.distance);
+
+      /*
+        this is the intended structure for the return value of this helper function
+        [
+          {
+            "nodeName": "B",
+            "distance": 3
+          },
+          {
+            "nodeName": "C",
+            "distance": 7
+          }
+        ]
+      */
+      return adjacentNodes;
+    };
+
+    let currentNodeName = startingNodeName;
+    let currentNodeDistanceFromStartingNode = 0;
+    while (visitedNodesSet.size < allNodeNamesArr.length) {
+      // await delayPromise(100); // uncomment this if you are debugging the algorithm and need to wait in between steps
+      // console.log(`currentNodeName: ${currentNodeName} | currentNodeDistanceFromStartingNode: ${currentNodeDistanceFromStartingNode}`)
+      const adjacentNodes = getNodeNeighborsAndWeights(currentNodeName);
+      adjacentNodes.forEach((adjacentNode) => {
+        if (!(adjacentNode.nodeName in distanceMap)) {
+          distanceMap[adjacentNode.nodeName] = {
+            distance: Infinity,
+            previousNode: null
+          };
+        }
+        const adjacentNodeDistanceFromStart = adjacentNode.distance + currentNodeDistanceFromStartingNode;
+        const isPathShorter = adjacentNodeDistanceFromStart < distanceMap[adjacentNode.nodeName].distance;
+        // console.log(`  adjacentNode.nodeName: ${adjacentNode.nodeName} | adjacentNodeDistanceFromStart: ${adjacentNodeDistanceFromStart} | isPathShorter: ${isPathShorter} compared to current ${adjacentNode.nodeName}/${distanceMap[adjacentNode.nodeName].distance}`)
+        if (isPathShorter) {
+          distanceMap[adjacentNode.nodeName] = {
+            distance: adjacentNodeDistanceFromStart,
+            previousNode: currentNodeName
+          };
+        }
+      });
+
+      visitedNodesSet.add(currentNodeName);
+      const nextNode = adjacentNodes.find(it => !(visitedNodesSet.has(it.nodeName)));
+      if (nextNode) {
+        // console.log(`nextNode.nodeName: ${nextNode.nodeName}`)
+        currentNodeName = nextNode.nodeName;
+        currentNodeDistanceFromStartingNode = distanceMap[nextNode.nodeName].distance;
+      }
+    }
+    // console.log(`done, ${JSON.stringify(distanceMap, undefined, 2)}`);
+
+    /*
+      this is the intended structure for the return value of this challenge
+      [
+        "A" {
+          "distance": "0",
+          "previousNode": null
+        },
+        "B" {
+          "distance": "3",
+          "previousNode": "D"
+        }
+      ]
+    */
+    return distanceMap;
   }
 
   /**

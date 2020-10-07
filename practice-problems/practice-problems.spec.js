@@ -4,9 +4,9 @@ const Practice = require('./practice-problems');
 const {ListNode, BinaryTree} = require('./helpers');
 const Graph = require('graph-data-structure');
 
-describe('Practice', function () {
-  describe('dijkstraShortestPath', function () {
-    it('should find the shortest path in a graph', function () {
+describe('Practice', async function () {
+  describe('dijkstraShortestPath', async function () {
+    it('should find the shortest path in a graph', async function () {
 
       /*
           in the following graph is represented visually as:
@@ -28,6 +28,31 @@ describe('Practice', function () {
           | C      | 7                          | E             |
           | D      | 1                          | A             |
           | E      | 2                          | D             |
+
+          the expected return value (though the sort order of keys may not be exact) of the algorithm is:
+
+          {
+           "A": {
+             distance: 0,
+             previousNode: null
+           },
+           "B": {
+             distance: 3,
+             previousNode: "D"
+           },
+           "C": {
+             distance: 7,
+             previousNode: "E"
+           },
+           "D": {
+             distance: 1,
+             previousNode: "A"
+           },
+           "E": {
+             distance: 2,
+             previousNode: "D"
+           }
+          }
        */
 
       const graph = new Graph();
@@ -38,14 +63,26 @@ describe('Practice', function () {
         .addNode('C')
         .addNode('D')
         .addNode('E')
-        .addEdge('A', 'B', 6)
-        .addEdge('A', 'D', 1)
-        .addEdge('B', 'C', 5)
-        .addEdge('B', 'D', 2)
-        .addEdge('C', 'E', 5)
-        .addEdge('D', 'E', 1);
 
-      const shortestPathResults = Practice.dijkstraShortestPath(graph, 'A');
+        .addEdge('A', 'B', 6)
+        .addEdge('B', 'A', 6)
+
+        .addEdge('A', 'D', 1)
+        .addEdge('D', 'A', 1)
+
+        .addEdge('B', 'C', 5)
+        .addEdge('C', 'B', 5)
+
+        .addEdge('B', 'D', 2)
+        .addEdge('D', 'B', 2)
+
+        .addEdge('C', 'E', 5)
+        .addEdge('E', 'C', 5)
+
+        .addEdge('D', 'E', 1)
+        .addEdge('E', 'D', 1);
+
+      const shortestPathResults = await Practice.dijkstraShortestPath(graph, 'A');
       expect(shortestPathResults['B'].distance).to.eql(3);
       expect(shortestPathResults['B'].previousNode).to.eql('D');
       expect(shortestPathResults['C'].distance).to.eql(7);

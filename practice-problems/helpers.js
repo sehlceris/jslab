@@ -84,7 +84,12 @@ class BinaryTree {
   }
 }
 
+const delayPromise = (delayMs = 100) => {
+  return new Promise((resolve, reject) => setTimeout(resolve, delayMs));
+};
+
 module.exports = {
   ListNode,
-  BinaryTree
+  BinaryTree,
+  delayPromise,
 };
