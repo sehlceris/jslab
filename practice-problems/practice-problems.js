@@ -3,55 +3,62 @@ const {ListNode, BinaryTree, delayPromise} = require('./helpers');
 class Practice {
 
   /**
-   An implementation of Dijkstra's shortest path algorithm.
-   Uses the graph data structure found here: https://www.npmjs.com/package/graph-data-structure
+    An implementation of Dijkstra's shortest path algorithm.
+    Uses the graph data structure found here: https://www.npmjs.com/package/graph-data-structure
 
-   Given the following graph of nodes represented visually as:
+    Given the following graph of nodes represented visually as:
 
-   [A]--(6)--[B]--(5)-[C]
-   |       / |       /
-   |      /  |      /
-   (1)   (2) (2)   (5)
-   |   /     |   /
-   |  /      |  /
-   [D]-(1)---[E]
+    [A]--(6)--[B]--(5)-[C]
+    |       / |       /
+    |      /  |      /
+    (1)   (2) (2)   (5)
+    |   /     |   /
+    |  /      |  /
+    [D]-(1)---[E]-(1)-[F]
 
-   the shortest path to all nodes from 'A' is as follows:
+    the shortest path to all nodes from 'A' is as follows:
 
-   | vertex | shortest distance from 'A' | previous node |
-   |--------|----------------------------|---------------|
-   | A      | 0                          | null          |
-   | B      | 3                          | D             |
-   | C      | 7                          | E             |
-   | D      | 1                          | A             |
-   | E      | 2                          | D             |
+    | vertex | shortest distance from 'A' | previous node |
+    |--------|----------------------------|---------------|
+    | A      | 0                          | null          |
+    | B      | 3                          | D             |
+    | C      | 7                          | E             |
+    | D      | 1                          | A             |
+    | E      | 2                          | D             |
+    | F      | 3                          | E             |
 
-   return the data in an object structured as follows:
-   {
-    "A": {
-      distance: 0,
-      previousNode: null
-    },
-    "B": {
-      distance: 3,
-      previousNode: "D"
-    },
-    "C": {
-      distance: 7,
-      previousNode: "E"
-    },
-    "D": {
-      distance: 1,
-      previousNode: "A"
-    },
-    "E": {
-      distance: 2,
-      previousNode: "D"
+    starting from node A, return the data in an object structured as follows:
+    {
+     "A": {
+       distance: 0,
+       previousNode: null
+     },
+     "B": {
+       distance: 3,
+       previousNode: "D"
+     },
+     "C": {
+       distance: 7,
+       previousNode: "E"
+     },
+     "D": {
+       distance: 1,
+       previousNode: "A"
+     },
+     "E": {
+       distance: 2,
+       previousNode: "D"
+     },
+     "F": {
+       distance: 3,
+       previousNode: "E"
+     }
     }
-   }
-
-   */
+  */
   static async dijkstraShortestPath(graph, startingNodeName) {
+
+    let DEBUG = true;
+
     const allNodeNamesArr = graph.nodes();
     const visitedNodesSet = new Set();
 
@@ -97,11 +104,14 @@ class Practice {
       return adjacentNodes;
     };
 
+    const nodeStack = [];
     let currentNodeName = startingNodeName;
     let currentNodeDistanceFromStartingNode = 0;
     while (visitedNodesSet.size < allNodeNamesArr.length) {
-      // await delayPromise(100); // uncomment this if you are debugging the algorithm and need to wait in between steps
-      // console.log(`currentNodeName: ${currentNodeName} | currentNodeDistanceFromStartingNode: ${currentNodeDistanceFromStartingNode}`)
+      if (DEBUG) {
+        await delayPromise(100); // uncomment this if you are debugging the algorithm and need to wait in between steps
+        console.log(`currentNodeName: ${currentNodeName} | currentNodeDistanceFromStartingNode: ${currentNodeDistanceFromStartingNode}`);
+      }
       const adjacentNodes = getNodeNeighborsAndWeights(currentNodeName);
       adjacentNodes.forEach((adjacentNode) => {
         if (!(adjacentNode.nodeName in distanceMap)) {
@@ -112,7 +122,9 @@ class Practice {
         }
         const adjacentNodeDistanceFromStart = adjacentNode.distance + currentNodeDistanceFromStartingNode;
         const isPathShorter = adjacentNodeDistanceFromStart < distanceMap[adjacentNode.nodeName].distance;
-        // console.log(`  adjacentNode.nodeName: ${adjacentNode.nodeName} | adjacentNodeDistanceFromStart: ${adjacentNodeDistanceFromStart} | isPathShorter: ${isPathShorter} compared to current ${adjacentNode.nodeName}/${distanceMap[adjacentNode.nodeName].distance}`)
+        if (DEBUG) {
+          console.log(`  adjacentNode.nodeName: ${adjacentNode.nodeName} | adjacentNodeDistanceFromStart: ${adjacentNodeDistanceFromStart} | isPathShorter: ${isPathShorter} compared to current ${adjacentNode.nodeName}/${distanceMap[adjacentNode.nodeName].distance}`);
+        }
         if (isPathShorter) {
           distanceMap[adjacentNode.nodeName] = {
             distance: adjacentNodeDistanceFromStart,
@@ -122,14 +134,31 @@ class Practice {
       });
 
       visitedNodesSet.add(currentNodeName);
-      const nextNode = adjacentNodes.find(it => !(visitedNodesSet.has(it.nodeName)));
+      let nextNode = adjacentNodes.find(it => !(visitedNodesSet.has(it.nodeName)));
+      if (!nextNode && visitedNodesSet.size < allNodeNamesArr.length) {
+        nextNode = nodeStack.pop();
+        if (DEBUG) {
+          console.log(`  no adjacent nodes, going back a step in the node stack to: ${nextNode.nodeName}`);
+        }
+      }
+      else {
+        nodeStack.push({
+          nodeName: currentNodeName,
+          distance: currentNodeDistanceFromStartingNode
+        });
+      }
       if (nextNode) {
-        // console.log(`nextNode.nodeName: ${nextNode.nodeName}`)
         currentNodeName = nextNode.nodeName;
         currentNodeDistanceFromStartingNode = distanceMap[nextNode.nodeName].distance;
+        if (DEBUG) {
+          console.log(`  advancing to next node: ${nextNode.nodeName}`);
+        }
       }
     }
-    // console.log(`done, ${JSON.stringify(distanceMap, undefined, 2)}`);
+
+    if (DEBUG) {
+      console.log(`done: ${JSON.stringify(distanceMap, undefined, 2)}`);
+    }
 
     /*
       this is the intended structure for the return value of this challenge

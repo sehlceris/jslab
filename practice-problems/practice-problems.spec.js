@@ -11,13 +11,13 @@ describe('Practice', async function () {
       /*
           in the following graph is represented visually as:
 
-          [a]--(6)--[b]--(5)-[c]
-           |       / |       /
-           |      /  |      /
+          [A]--(6)--[B]--(5)-[C]
+          |       / |       /
+          |      /  |      /
           (1)   (2) (2)   (5)
-           |   /     |   /
-           |  /      |  /
-          [d]-(1)---[e]
+          |   /     |   /
+          |  /      |  /
+          [D]-(1)---[E]-(1)-[F]
 
           the shortest path to all nodes from 'A' is as follows:
 
@@ -28,6 +28,7 @@ describe('Practice', async function () {
           | C      | 7                          | E             |
           | D      | 1                          | A             |
           | E      | 2                          | D             |
+          | F      | 3                          | E             |
 
           the expected return value (though the sort order of keys may not be exact) of the algorithm is:
 
@@ -51,6 +52,10 @@ describe('Practice', async function () {
            "E": {
              distance: 2,
              previousNode: "D"
+           },
+           "F": {
+             distance: 3,
+             previousNode: "E"
            }
           }
        */
@@ -63,6 +68,7 @@ describe('Practice', async function () {
         .addNode('C')
         .addNode('D')
         .addNode('E')
+        .addNode('F')
 
         .addEdge('A', 'B', 6)
         .addEdge('B', 'A', 6)
@@ -80,7 +86,10 @@ describe('Practice', async function () {
         .addEdge('E', 'C', 5)
 
         .addEdge('D', 'E', 1)
-        .addEdge('E', 'D', 1);
+        .addEdge('E', 'D', 1)
+
+        .addEdge('E', 'F', 1)
+        .addEdge('F', 'E', 1)
 
       const shortestPathResults = await Practice.dijkstraShortestPath(graph, 'A');
       expect(shortestPathResults['B'].distance).to.eql(3);
@@ -91,6 +100,8 @@ describe('Practice', async function () {
       expect(shortestPathResults['D'].previousNode).to.eql('A');
       expect(shortestPathResults['E'].distance).to.eql(2);
       expect(shortestPathResults['E'].previousNode).to.eql('D');
+      expect(shortestPathResults['F'].distance).to.eql(3);
+      expect(shortestPathResults['F'].previousNode).to.eql('E');
     });
   });
 
