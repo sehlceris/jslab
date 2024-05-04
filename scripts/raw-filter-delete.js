@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // deletes all raw files if there is not a corresponding JPG
 
 const rawRegex = /^(.*)\.(arw|raf|raw)$/i;

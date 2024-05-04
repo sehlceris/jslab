@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const crypto = require('crypto');
 const args = process.argv.slice(2);
 
