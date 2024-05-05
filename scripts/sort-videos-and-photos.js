@@ -52,19 +52,29 @@ async function getTakenDate(filePath) {
     }
 }
 
-async function moveAndRenameFile(filePath, takenDate) {
+async function renameFile(filePath, takenDate) {
     const date = new Date(takenDate);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const baseDir = path.dirname(filePath);
-    const directoryPath = path.join(baseDir, 'sorted', year.toString(), month);
+    const directoryPath = path.join(baseDir);
 
     await fsPromises.mkdir(directoryPath, { recursive: true });
 
-    const newFilename = `${date.toISOString().split('T')[0]} ${path.basename(filePath)}`;    const newFilePath = path.join(directoryPath, newFilename);
-    await fsPromises.rename(filePath, newFilePath);
+    const dateStampStr = date.toISOString().split('T')[0];
+    const baseName = path.basename(filePath);
+    const revisedBaseName = baseName.replace(/\s+/, ' ').replace(`${dateStampStr} `, '').replace(dateStampStr, '').replace(/\s+/, ' '); // remove duplicate date stamp and/or extra spaces if it exists
+    const newFilename = `${dateStampStr} ${revisedBaseName}`;
+    const newFilePath = path.join(directoryPath, newFilename);
 
-    console.log(`moved and renamed ${filePath} to ${newFilePath}`);
+    if (filePath !== newFilePath) {
+        await fsPromises.rename(filePath, newFilePath);
+        console.log(`renamed ${filePath} to ${newFilePath}`);
+    }
+    else {
+        console.log(`skipped rename of ${filePath}`);
+    }
+
 }
 
 async function processFiles(directoryPath) {
@@ -74,7 +84,7 @@ async function processFiles(directoryPath) {
         const filePath = path.join(directoryPath, file);
         if (isValidFile(file) && fs.statSync(filePath).isFile()) {
             const takenDate = await getTakenDate(filePath);
-            await moveAndRenameFile(filePath, takenDate);
+            await renameFile(filePath, takenDate);
         }
     }
 
