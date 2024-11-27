@@ -1,21 +1,21 @@
-function calculateGpuMemory(parameters, precisionBits) {
+function calculateGpuMemory(billionParameters, precisionBits) {
   const bytesPerParam = 4; // 4 bytes per parameter
   const overhead = 1.2; // 20% overhead
   const bitsPerByte = 32; // 32 bits in 4 bytes
 
-  // Memory calculation in GB
+  // Memory calculation in GB - https://www.substratus.ai/blog/calculating-gpu-memory-for-llm
   const memoryGB =
-    ((bitsPerByte / precisionBits) * (parameters * bytesPerParam) * overhead) /
-    1024 ** 3;
+    ((billionParameters * bytesPerParam) / (bitsPerByte / precisionBits)) *
+    overhead;
   return memoryGB;
 }
 
 const models = [
-  { name: "70B", params: 70e9 },
-  { name: "32B", params: 32e9 },
-  { name: "14B", params: 14e9 },
-  { name: "7B", params: 7e9 },
-  { name: "3B", params: 3e9 },
+  { name: "70B", params: 70 },
+  { name: "32B", params: 32 },
+  { name: "14B", params: 14 },
+  { name: "7B", params: 7 },
+  { name: "3B", params: 3 },
 ];
 
 const precisions = [8, 6, 5, 4];
@@ -29,33 +29,33 @@ models.forEach((model) => {
 });
 
 /*
-Memory Requirements for 70B Model:
- - 8-bit precision: 1251.70 GB
- - 6-bit precision: 1668.93 GB
- - 5-bit precision: 2002.72 GB
- - 4-bit precision: 2503.40 GB
+    Memory Requirements for 70B Model:
+    - 8-bit precision: 84.00 GB
+    - 6-bit precision: 63.00 GB
+    - 5-bit precision: 52.50 GB
+    - 4-bit precision: 42.00 GB
 
-Memory Requirements for 32B Model:
- - 8-bit precision: 572.20 GB
- - 6-bit precision: 762.94 GB
- - 5-bit precision: 915.53 GB
- - 4-bit precision: 1144.41 GB
+    Memory Requirements for 32B Model:
+    - 8-bit precision: 38.40 GB
+    - 6-bit precision: 28.80 GB
+    - 5-bit precision: 24.00 GB
+    - 4-bit precision: 19.20 GB
 
-Memory Requirements for 14B Model:
- - 8-bit precision: 250.34 GB
- - 6-bit precision: 333.79 GB
- - 5-bit precision: 400.54 GB
- - 4-bit precision: 500.68 GB
+    Memory Requirements for 14B Model:
+    - 8-bit precision: 16.80 GB
+    - 6-bit precision: 12.60 GB
+    - 5-bit precision: 10.50 GB
+    - 4-bit precision: 8.40 GB
 
-Memory Requirements for 7B Model:
- - 8-bit precision: 125.17 GB
- - 6-bit precision: 166.89 GB
- - 5-bit precision: 200.27 GB
- - 4-bit precision: 250.34 GB
+    Memory Requirements for 7B Model:
+    - 8-bit precision: 8.40 GB
+    - 6-bit precision: 6.30 GB
+    - 5-bit precision: 5.25 GB
+    - 4-bit precision: 4.20 GB
 
-Memory Requirements for 3B Model:
- - 8-bit precision: 53.64 GB
- - 6-bit precision: 71.53 GB
- - 5-bit precision: 85.83 GB
- - 4-bit precision: 107.29 GB
-*/
+    Memory Requirements for 3B Model:
+    - 8-bit precision: 3.60 GB
+    - 6-bit precision: 2.70 GB
+    - 5-bit precision: 2.25 GB
+    - 4-bit precision: 1.80 GB
+ */
