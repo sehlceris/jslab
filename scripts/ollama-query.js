@@ -1,7 +1,8 @@
 const http = require("http");
+const https = require("https");
 
 // Configuration
-const serverUrl = "http://192.168.1.32:10000/v1/chat/completions";
+const serverUrl = "https://openapi.chrislee.dev/v1/chat/completions";
 const authHeader = "Basic ="; // Replace with your token
 
 const processChunk = (chunk) => {
@@ -19,7 +20,6 @@ const processChunk = (chunk) => {
           const content = data.choices[0]?.delta?.content;
           if (content) {
             process.stdout.write(content); // Print content directly
-            // console.log(content);
           }
         } catch (err) {
           console.error("Failed to parse chunk:", err);
@@ -40,11 +40,14 @@ function askServer(prompt) {
       },
       {
         role: "user",
-        content: "Hello who are you",
+        content: prompt,
       },
     ],
     stream: true,
   });
+
+  const isHttps = serverUrl.startsWith("https");
+  const lib = isHttps ? https : http; // Select the correct module
 
   const options = {
     method: "POST",
@@ -54,7 +57,7 @@ function askServer(prompt) {
     },
   };
 
-  const req = http.request(serverUrl, options, (res) => {
+  const req = lib.request(serverUrl, options, (res) => {
     res.setEncoding("utf8");
     res.on("data", (chunk) => {
       processChunk(chunk);
